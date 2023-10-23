@@ -1,0 +1,237 @@
+package com.example.tictactoe
+
+import android.content.Intent
+import android.graphics.Bitmap
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Handler
+import android.view.View
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import com.example.tictactoe.databinding.ActivityMain2Binding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.qrcode.QRCodeWriter
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+
+var isCodeMaker = true;
+var code = "null";
+var codeFound = false
+var checkTemp = true
+var keyValue: String = "null"
+
+class MainActivity2 : AppCompatActivity() {
+    lateinit var binding: ActivityMain2Binding
+    var data = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main2)
+
+        binding.Create.setOnClickListener {
+            code = "null";
+            codeFound = false
+            checkTemp = true
+            keyValue = "null"
+            binding.Create.visibility = View.GONE
+            binding.Join.visibility = View.GONE
+            binding.textView4.visibility = View.GONE
+            binding.getCode.visibility = View.GONE
+
+
+            code = generateRandomCode(8)
+
+            binding.progressBar.visibility = View.VISIBLE
+            if (code != "null" && code != null && code != "") {
+
+                val qrCodeBitmap = generateQRCode(code)
+                binding.idIVQrcode.setImageBitmap(qrCodeBitmap)
+
+                isCodeMaker = true;
+                FirebaseDatabase.getInstance().reference.child("codes")
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            var check = isValueAvailable(snapshot, code)
+
+                            Handler().postDelayed({
+                                if (check == true) {
+                                    binding.Create.visibility = View.VISIBLE
+                                    binding.Join.visibility = View.VISIBLE
+                                    binding.textView4.visibility = View.VISIBLE
+                                    binding.getCode.visibility = View.VISIBLE
+                                    binding.progressBar.visibility = View.GONE
+
+                                } else {
+                                    FirebaseDatabase.getInstance().reference.child("codes").push()
+                                        .setValue(code)
+                                    isValueAvailable(snapshot, code)
+
+                                    checkTemp = false
+                                    Handler().postDelayed({
+                                        accepted()
+                                    }, 300)
+
+                                }
+                            }, 2000)
+
+
+                        }
+
+                    })
+            } else {
+                binding.Create.visibility = View.VISIBLE
+                binding.Join.visibility = View.VISIBLE
+                binding.textView4.visibility = View.VISIBLE
+                binding.getCode.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+                errorMsg("Enter Code Properly")
+            }
+        }
+
+        binding.getCode.setOnClickListener {
+            val integrator = IntentIntegrator(this)
+            integrator.setOrientationLocked(true)
+            integrator.initiateScan()
+            isCodeMaker = false;
+
+
+        }
+
+        binding.Join.setOnClickListener {
+            codeFound = false
+            checkTemp = true
+            keyValue = "null"
+
+            if (code != "null" && code != null && code != "") {
+                binding.Create.visibility = View.GONE
+                binding.Join.visibility = View.GONE
+                binding.textView4.visibility = View.GONE
+                binding.getCode.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+
+                FirebaseDatabase.getInstance().reference.child("codes")
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            data = isValueAvailable(snapshot, code)
+
+                            Handler().postDelayed({
+                                if (data == true) {
+                                    codeFound = true
+                                    accepted()
+                                    binding.Create.visibility = View.VISIBLE
+                                    binding.Join.visibility = View.VISIBLE
+                                    binding.textView4.visibility = View.VISIBLE
+                                    binding.getCode.visibility = View.VISIBLE
+                                    binding.progressBar.visibility = View.GONE
+                                } else {
+                                    binding.Create.visibility = View.VISIBLE
+                                    binding.Join.visibility = View.VISIBLE
+                                    binding.textView4.visibility = View.VISIBLE
+                                    binding.getCode.visibility = View.VISIBLE
+                                    binding.progressBar.visibility = View.GONE
+                                    errorMsg("Invalid Code")
+                                }
+                            }, 2000)
+
+
+                        }
+
+
+                    })
+
+            } else {
+                errorMsg("Enter Code Properly")
+            }
+        }
+    }
+
+    fun accepted() {
+
+        if (data) {
+            startActivity(Intent(this, Game_Page::class.java))
+            binding.Create.visibility = View.VISIBLE
+            binding.Join.visibility = View.VISIBLE
+            binding.textView4.visibility = View.VISIBLE
+            binding.getCode.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+            errorMsg("Please don't go back")
+        }
+    }
+
+    fun errorMsg(value: String) {
+        Toast.makeText(this, value, Toast.LENGTH_SHORT).show()
+    }
+
+    fun isValueAvailable(snapshot: DataSnapshot, code: String): Boolean {
+        var data = snapshot.children
+        data.forEach {
+            var value = it.getValue().toString()
+            if (value == code) {
+                keyValue = it.key.toString()
+                return true;
+            }
+        }
+        return false
+    }
+
+    private fun generateQRCode(textToEncode: String): Bitmap {
+        val width = 500
+        val height = 500
+
+        val hints = mutableMapOf<EncodeHintType, Any>()
+        hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
+        hints[EncodeHintType.ERROR_CORRECTION] = ErrorCorrectionLevel.H
+        val qrCodeWriter = QRCodeWriter()
+        val bitMatrix =
+            qrCodeWriter.encode(textToEncode, BarcodeFormat.QR_CODE, width, height, hints)
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                bitmap.setPixel(
+                    x,
+                    y,
+                    if (bitMatrix[x, y]) 0xFF000000.toInt() else 0xFFFFFFFF.toInt()
+                )
+            }
+        }
+
+        return bitmap
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents != null) {
+                // Handle the scanned QR code result
+                val scannedText = result.contents
+                code = scannedText.toString()
+            } else {
+                // Handle canceled scan or no QR code found
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    fun generateRandomCode(length: Int): String {
+        val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        return (1..length)
+            .map { _ -> charPool.random() }
+            .joinToString("")
+    }
+}
