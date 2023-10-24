@@ -2,17 +2,23 @@ package com.example.tictactoe
 
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.tictactoe.databinding.ActivityMain2Binding
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.dynamiclinks.ShortDynamicLink
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.integration.android.IntentIntegrator
@@ -26,12 +32,89 @@ var checkTemp = true
 var keyValue: String = "null"
 
 class MainActivity2 : AppCompatActivity() {
+    private var uri: Uri? = null
     lateinit var binding: ActivityMain2Binding
     var data = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main2)
+
+        FirebaseDynamicLinks.getInstance()
+            .getDynamicLink(intent)
+            .addOnSuccessListener { pendingDynamicLinkData ->
+                if (pendingDynamicLinkData != null) {
+                    // The app was opened via a Dynamic Link
+                    val dynamicLink = pendingDynamicLinkData.link
+                    val customParameters = dynamicLink!!.getQueryParameters("game")
+
+                    Toast.makeText(this, ""+pendingDynamicLinkData, Toast.LENGTH_LONG).show()
+//                    Toast.makeText(this, ""+dynamicLink, Toast.LENGTH_SHORT).show()
+                    // Now you can use these parameters in your app
+                    // param1, param2, param3 contain the values you set in the Dynamic Link
+                }
+            }
+//        binding.link.setOnClickListener {
+//
+//            // Initialize Firebase Dynamic Links
+//            val dynamicLinks = FirebaseDynamicLinks.getInstance()
+//            code = generateRandomCode(8)
+//            // Create dynamic link parameters
+//            val dynamicLinkUri = "https://tictactoi.page.link/code" // Replace with your dynamic link domain
+//            val linkBuilder = dynamicLinks.createDynamicLink()
+//                .setLink(Uri.parse("https://tictactoi.page.link/?code=$code"))
+//                .setDomainUriPrefix("https://tictactoi.page.link/")
+//
+//
+//            linkBuilder
+//                .setAndroidParameters(
+//                    DynamicLink.AndroidParameters.Builder("com.example.tictactoe")
+//                    .setMinimumVersion(1)
+//                    .build())
+//            val dynamicLink = linkBuilder.buildDynamicLink()
+//
+//// Generate a short dynamic link
+//            dynamicLinks.createDynamicLink()
+//                .setLongLink(dynamicLink.uri)
+//                .buildShortDynamicLink(ShortDynamicLink.Suffix.SHORT)
+//                .addOnSuccessListener(object : OnSuccessListener<ShortDynamicLink> {
+//                    override fun onSuccess(shortDynamicLink: ShortDynamicLink) {
+//                        val shortLink = shortDynamicLink.shortLink
+//                        val previewLink = shortDynamicLink.previewLink
+//                        // Handle the generated short link as needed (e.g., share it)
+//
+//                        val intent = Intent(Intent.ACTION_SEND)
+//                        intent.type = "text/plain"
+//                        intent.putExtra(Intent.EXTRA_TEXT, dynamicLinkUri)
+//                        startActivity(Intent.createChooser(intent, "Share Dynamic Link"))
+//                    }
+//                })
+//                .addOnFailureListener(object : OnFailureListener {
+//                    override fun onFailure(e: Exception) {
+//                        // Handle any errors that occur during the link generation process
+//                    }
+//                })
+//        }
+
+        binding.link.setOnClickListener {
+            code = generateRandomCode(8)
+            val dynamicLinkUri = Uri.Builder()
+                .scheme("https")
+                .authority("tictactoi.page.link") // Your Dynamic Links domain
+                .appendPath("code") // Path for deep link
+                .appendQueryParameter("game", code) // Add custom parameter
+
+            // Share the Dynamic Link
+            val dynamicLinkUrl = dynamicLinkUri.build().toString()
+
+
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_TEXT, dynamicLinkUrl)
+            startActivity(Intent.createChooser(intent, "Share Dynamic Link"))
+
+        }
 
         binding.Create.setOnClickListener {
             code = "null";
@@ -229,7 +312,7 @@ class MainActivity2 : AppCompatActivity() {
     }
 
     fun generateRandomCode(length: Int): String {
-        val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         return (1..length)
             .map { _ -> charPool.random() }
             .joinToString("")

@@ -112,11 +112,13 @@ class Game_Page : AppCompatActivity() {
             buttonSelected.text = "X"
             binding.textView3.text = "Turn : Player 2"
             buttonSelected.setTextColor(Color.parseColor("#EC0C0C"))
+            buttonSelected.setBackgroundColor(Color.parseColor("#A7C5EB"))
             count++
         } else {
             buttonSelected.text = "O"
             binding.textView3.text = "Turn : Player 1"
             buttonSelected.setTextColor(Color.parseColor("#D22BB804"))
+            buttonSelected.setBackgroundColor(Color.parseColor("#F5DF99"))
             count--
         }
 
@@ -174,11 +176,13 @@ class Game_Page : AppCompatActivity() {
                 buttonselected.text = "X"
                 binding.textView3.text = "Turn : Player 2"
                 buttonselected.setTextColor(Color.parseColor("#EC0C0C"))
+                buttonselected.setBackgroundColor(Color.parseColor("#A7C5EB"))
                 count++
             } else {
                 buttonselected.text = "O"
                 binding.textView3.text = "Turn : Player 1"
                 buttonselected.setTextColor(Color.parseColor("#D22BB804"))
+                buttonselected.setBackgroundColor(Color.parseColor("#F5DF99"))
                 count--
             }
 
@@ -338,6 +342,7 @@ class Game_Page : AppCompatActivity() {
             buttonselected.text = ""
             binding.textView.text = "Player1 : $player1Count"
             binding.textView2.text = "Player2 : $player2Count"
+            buttonselected.setBackgroundColor(Color.parseColor("#F1F6F9"))
             isMyMove = isCodeMaker
             //startActivity(Intent(this,ThirdPage::class.java))
             if (isCodeMaker) {

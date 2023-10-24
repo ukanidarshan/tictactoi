@@ -23,10 +23,23 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
+
+            <intent-filter>
+                <!-- below line is to set the action to our intent to view -->
+                <action android:name="android.intent.action.VIEW" />
+
+                <!-- on below line we are adding a default category to our intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <!-- on below line we are adding a category to make our app browsable -->
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- on below line we are specifying the host name and
+                    the scheme type from which we will be calling our app -->
+                <data
+                    android:host="tictactoi.page.link"
+                    android:scheme="https" />
+            </intent-filter>
 
         </activity>
     </application>
