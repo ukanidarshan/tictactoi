@@ -30,13 +30,13 @@ class Game_Page : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game_page)
 
-        FirebaseDatabase.getInstance().reference.child("go").removeValue()
+        FirebaseDatabase.getInstance().reference.child(code).child("go").child(code).removeValue()
 
         binding.button110.setOnClickListener {
             reset()
             errorMsg("Game Reset")
         }
-        FirebaseDatabase.getInstance().reference.child("data").child(code)
+        FirebaseDatabase.getInstance().reference.child(code).child("data").child(code)
             .addChildEventListener(object : ChildEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
@@ -193,7 +193,7 @@ class Game_Page : AppCompatActivity() {
     }
 
     fun updateDatabase(cellId: Int) {
-        FirebaseDatabase.getInstance().reference.child("data").child(code).push().setValue(cellId);
+        FirebaseDatabase.getInstance().reference.child(code).child("data").child(code).push().setValue(cellId);
     }
 
     fun checkwinner(): Int {
@@ -292,7 +292,7 @@ class Game_Page : AppCompatActivity() {
             dialog.setContentView(R.layout.custom_layout)
 
             val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "Stalemate: It's a Draw!"
+            body.text = "Stalemate: It's a Tie!"
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
             dialogMessage.text = "Try again for a decisive victory" + "\n\n" + "Do you want to play again?"
 
@@ -344,7 +344,7 @@ class Game_Page : AppCompatActivity() {
             isMyMove = isCodeMaker
             //startActivity(Intent(this,ThirdPage::class.java))
             if (isCodeMaker) {
-                FirebaseDatabase.getInstance().reference.child("data").child(code).removeValue()
+                FirebaseDatabase.getInstance().reference.child(code).child("data").child(code).removeValue()
             }
 
 
@@ -397,7 +397,7 @@ class Game_Page : AppCompatActivity() {
 
     fun removeCode() {
         if (isCodeMaker) {
-            FirebaseDatabase.getInstance().reference.child("codes").child(keyValue).removeValue()
+            FirebaseDatabase.getInstance().reference.child(code).child("codes").child(keyValue).removeValue()
         }
     }
 
@@ -413,7 +413,7 @@ class Game_Page : AppCompatActivity() {
     override fun onBackPressed() {
         removeCode()
         if (isCodeMaker) {
-            FirebaseDatabase.getInstance().reference.child("data").child(code).removeValue()
+            FirebaseDatabase.getInstance().reference.child(code).child("data").child(code).removeValue()
         }
         exitProcess(0)
     }
