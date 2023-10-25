@@ -25,14 +25,12 @@ class Game_Page : AppCompatActivity() {
     var isMyMove = isCodeMaker;
     var playerTurn = true
     var count = 0
-    override fun onStop() {
-        super.onStop()
-        FirebaseDatabase.getInstance().reference.removeValue()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game_page)
+
+        FirebaseDatabase.getInstance().reference.child("go").removeValue()
 
         binding.button110.setOnClickListener {
             reset()
@@ -224,9 +222,9 @@ class Game_Page : AppCompatActivity() {
             dialog.setContentView(R.layout.custom_layout)
 
             val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "you Won!"
+            body.text = "You Won!"
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text = "CONGRATULATION" + "\n\n" + "Do you want to play again"
+            dialogMessage.text = "Congratulations! Victory is yours. Well played!" + "\n\n" + "Do you want to play again"
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
@@ -265,9 +263,9 @@ class Game_Page : AppCompatActivity() {
             dialog.setContentView(R.layout.custom_layout)
 
             val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "you Lose!"
+            body.text = "You Lose!"
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text = "better luck next time" + "\n\n" + "Do you want to play again"
+            dialogMessage.text = "better luck for next time" + "\n\n" + "Do you want to play again"
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
@@ -294,9 +292,9 @@ class Game_Page : AppCompatActivity() {
             dialog.setContentView(R.layout.custom_layout)
 
             val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "Draw "
+            body.text = "Stalemate: It's a Draw!"
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text = "nobody Won" + "\n\n" + "Do you want to play again"
+            dialogMessage.text = "Try again for a decisive victory" + "\n\n" + "Do you want to play again?"
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
