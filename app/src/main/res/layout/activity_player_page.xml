@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PlayerPage"
+        android:background="@drawable/tic"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Tic Tac Toe"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="35dp"
+            android:layout_marginBottom="300dp" />
+
+        <Button
+            android:id="@+id/button11"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#D0AC00"
+            android:textColor="@color/black"
+            android:text="Single Player" />
+
+        <Button
+            android:id="@+id/button12"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#D0AC00"
+            android:textColor="@color/black"
+            android:text="Multi Player" />
+
+    </LinearLayout>
+</layout>

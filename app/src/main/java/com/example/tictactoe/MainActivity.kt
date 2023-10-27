@@ -27,24 +27,22 @@ class MainActivity : AppCompatActivity() {
 //            // Use the parameters in your app
 //        }
 
-        FirebaseDynamicLinks.getInstance()
-            .getDynamicLink(intent)
-            .addOnSuccessListener { pendingDynamicLinkData ->
-                if (pendingDynamicLinkData != null) {
-                    // The app was opened via a Dynamic Link
-                    val dynamicLink = pendingDynamicLinkData.link
-
-                    if (dynamicLink != null) {
-                        Toast.makeText(this, ""+dynamicLink, Toast.LENGTH_SHORT).show()
-
-                            val intent = Intent(this,OnlineGamePage::class.java)
-                            intent.putExtra("bylink","true")
-                            startActivity(intent)
-                    }
-                }
-            }
-
-
+//        FirebaseDynamicLinks.getInstance()
+//            .getDynamicLink(intent)
+//            .addOnSuccessListener { pendingDynamicLinkData ->
+//                if (pendingDynamicLinkData != null) {
+//                    // The app was opened via a Dynamic Link
+//                    val dynamicLink = pendingDynamicLinkData.link
+//
+//                    if (dynamicLink != null) {
+//                        Toast.makeText(this, ""+dynamicLink, Toast.LENGTH_SHORT).show()
+//
+//                            val intent = Intent(this,OnlineGamePage::class.java)
+//                            intent.putExtra("bylink","true")
+//                            startActivity(intent)
+//                    }
+//                }
+//            }
 
         binding.local.setOnClickListener{
             startActivity(Intent(this,MainActivity2::class.java))

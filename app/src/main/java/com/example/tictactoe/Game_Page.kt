@@ -48,8 +48,29 @@ class Game_Page : AppCompatActivity() {
                             if (check == true) {
                                 FirebaseDatabase.getInstance().reference.child(code).child("isExit")
                                     .removeValue()
-                                removeCode()
-                                exitProcess(1)
+
+                                val dialog = Dialog(this@Game_Page)
+                                dialog.setCancelable(false)
+                                dialog.setContentView(R.layout.custom_layout)
+
+                                val body = dialog.findViewById(R.id.settitle) as TextView
+                                body.text = "Oops!"
+                                val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
+                                dialogMessage.text =
+                                    "Oponent leave the game " + "\n\n" + "Please Exit"
+
+                                val yesBtn = dialog.findViewById(R.id.exitButton) as Button
+                                yesBtn.setOnClickListener {
+                                    FirebaseDatabase.getInstance().reference.child(code)
+                                        .child("isExit").push().setValue("true")
+                                    removeCode()
+                                    exitProcess(1)
+                                }
+
+                                val noBtn = dialog.findViewById(R.id.playAgainButton) as Button
+                                noBtn.visibility = View.GONE
+                                dialog.show()
+                                Handler().postDelayed(Runnable { dialog.show() }, 1)
                             }
                         }, 1)
                     }
@@ -273,7 +294,7 @@ class Game_Page : AppCompatActivity() {
                 dialog.dismiss()
                 reset()
             }
-            Handler().postDelayed(Runnable { dialog.show() }, 2000)
+            Handler().postDelayed(Runnable { dialog.show() }, 1)
             return 1
 
 
@@ -320,7 +341,7 @@ class Game_Page : AppCompatActivity() {
                 dialog.dismiss()
                 reset()
             }
-            Handler().postDelayed(Runnable { dialog.show() }, 2000)
+            Handler().postDelayed(Runnable { dialog.show() }, 1)
             return 1
         } else if (emptyCells.contains(1) && emptyCells.contains(2) && emptyCells.contains(3) && emptyCells.contains(
                 4
@@ -344,6 +365,7 @@ class Game_Page : AppCompatActivity() {
                 Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
                 FirebaseDatabase.getInstance().reference.child(code)
                     .child("isExit").push().setValue("true")
+
                 removeCode()
                 exitProcess(1)
             }
@@ -353,7 +375,7 @@ class Game_Page : AppCompatActivity() {
                 dialog.dismiss()
                 reset()
             }
-            Handler().postDelayed(Runnable { dialog.show() }, 2000)
+            Handler().postDelayed(Runnable { dialog.show() }, 1)
             return 1
 
         }
