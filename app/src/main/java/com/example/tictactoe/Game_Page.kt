@@ -11,12 +11,15 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.postDelayed
 import androidx.databinding.DataBindingUtil
 import com.example.tictactoe.databinding.ActivityGamePageBinding
+import com.google.firebase.Firebase
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlin.system.exitProcess
 
 class Game_Page : AppCompatActivity() {
@@ -30,7 +33,31 @@ class Game_Page : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game_page)
 
-        FirebaseDatabase.getInstance().reference.child(code).child("go").child(code).removeValue()
+        Handler().postDelayed({
+
+            FirebaseDatabase.getInstance().reference.child(code).child("isExit")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        Handler().postDelayed({
+                            var check = isValueAvailable(snapshot, "true")
+                            if (check == true) {
+                                FirebaseDatabase.getInstance().reference.child(code).child("isExit")
+                                    .removeValue()
+                                removeCode()
+                                exitProcess(1)
+                            }
+                        }, 1)
+                    }
+                })
+        }, 1)
+
+        FirebaseDatabase.getInstance().reference.child(code).child("go").child(code)
+            .removeValue()
 
         binding.button110.setOnClickListener {
             reset()
@@ -46,7 +73,10 @@ class Game_Page : AppCompatActivity() {
                     TODO("Not yet implemented")
                 }
 
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                override fun onChildChanged(
+                    snapshot: DataSnapshot,
+                    previousChildName: String?
+                ) {
                     TODO("Not yet implemented")
                 }
 
@@ -193,7 +223,8 @@ class Game_Page : AppCompatActivity() {
     }
 
     fun updateDatabase(cellId: Int) {
-        FirebaseDatabase.getInstance().reference.child(code).child("data").child(code).push().setValue(cellId);
+        FirebaseDatabase.getInstance().reference.child(code).child("data").child(code).push()
+            .setValue(cellId);
     }
 
     fun checkwinner(): Int {
@@ -206,15 +237,16 @@ class Game_Page : AppCompatActivity() {
             (player1.contains(4) && player1.contains(5) && player1.contains(6)) || (player1.contains(
                 1
             ) && player1.contains(5) && player1.contains(9)) ||
-            player1.contains(3) && player1.contains(5) && player1.contains(7) || (player1.contains(2) && player1.contains(
+            player1.contains(3) && player1.contains(5) && player1.contains(7) || (player1.contains(
+                2
+            ) && player1.contains(
                 5
             ) && player1.contains(8))
         ) {
             player1Count += 1
             buttonDisable()
             disableReset()
-            count =0
-
+            count = 0
 
 
             val dialog = Dialog(this)
@@ -224,10 +256,14 @@ class Game_Page : AppCompatActivity() {
             val body = dialog.findViewById(R.id.settitle) as TextView
             body.text = "You Won!"
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text = "Congratulations! Victory is yours. Well played!" + "\n\n" + "Do you want to play again"
+            dialogMessage.text =
+                "Congratulations! Victory is yours. Well played!" + "\n\n" + "Do you want to play again"
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
+                Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
+                FirebaseDatabase.getInstance().reference.child(code)
+                    .child("isExit").push().setValue("true")
                 removeCode()
                 exitProcess(1)
             }
@@ -250,13 +286,15 @@ class Game_Page : AppCompatActivity() {
             (player2.contains(4) && player2.contains(5) && player2.contains(6)) || (player2.contains(
                 1
             ) && player2.contains(5) && player2.contains(9)) ||
-            player2.contains(3) && player2.contains(5) && player2.contains(7) || (player2.contains(2) && player2.contains(
+            player2.contains(3) && player2.contains(5) && player2.contains(7) || (player2.contains(
+                2
+            ) && player2.contains(
                 5
             ) && player2.contains(8))
         ) {
             player2Count += 1
             buttonDisable()
-            count =0
+            count = 0
             disableReset()
             val dialog = Dialog(this)
             dialog.setCancelable(false)
@@ -265,10 +303,14 @@ class Game_Page : AppCompatActivity() {
             val body = dialog.findViewById(R.id.settitle) as TextView
             body.text = "You Lose!"
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text = "better luck for next time" + "\n\n" + "Do you want to play again"
+            dialogMessage.text =
+                "better luck for next time" + "\n\n" + "Do you want to play again"
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
+                Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
+                FirebaseDatabase.getInstance().reference.child(code)
+                    .child("isExit").push().setValue("true")
                 removeCode()
                 exitProcess(1)
             }
@@ -286,7 +328,7 @@ class Game_Page : AppCompatActivity() {
             emptyCells.contains(8) && emptyCells.contains(9)
         ) {
 
-            count =0
+            count = 0
             val dialog = Dialog(this)
             dialog.setCancelable(false)
             dialog.setContentView(R.layout.custom_layout)
@@ -294,10 +336,14 @@ class Game_Page : AppCompatActivity() {
             val body = dialog.findViewById(R.id.settitle) as TextView
             body.text = "Stalemate: It's a Tie!"
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text = "Try again for a decisive victory" + "\n\n" + "Do you want to play again?"
+            dialogMessage.text =
+                "Try again for a decisive victory" + "\n\n" + "Do you want to play again?"
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
+                Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
+                FirebaseDatabase.getInstance().reference.child(code)
+                    .child("isExit").push().setValue("true")
                 removeCode()
                 exitProcess(1)
             }
@@ -320,6 +366,12 @@ class Game_Page : AppCompatActivity() {
         emptyCells.clear()
         activeUser = 1;
         binding.textView3.text = "Turn : Player 1"
+
+
+
+
+
+
         for (i in 1..9) {
             var buttonselected: Button?
             buttonselected = when (i) {
@@ -344,7 +396,8 @@ class Game_Page : AppCompatActivity() {
             isMyMove = isCodeMaker
             //startActivity(Intent(this,ThirdPage::class.java))
             if (isCodeMaker) {
-                FirebaseDatabase.getInstance().reference.child(code).child("data").child(code).removeValue()
+                FirebaseDatabase.getInstance().reference.child(code).child("data").child(code)
+                    .removeValue()
             }
 
 
@@ -395,9 +448,25 @@ class Game_Page : AppCompatActivity() {
         }
     }
 
+    fun isValueAvailable(snapshot: DataSnapshot, code: String): Boolean {
+        var data = snapshot.children
+        var found = false
+        data.forEach {
+            var value = it.getValue().toString()
+            if (value == code) {
+                keyValue = it.key.toString()
+                found = true
+                return@forEach
+            }
+        }
+        return found
+    }
+
     fun removeCode() {
+
         if (isCodeMaker) {
-            FirebaseDatabase.getInstance().reference.child(code).child("codes").child(keyValue).removeValue()
+            FirebaseDatabase.getInstance().reference.child(code).child("codes").child(keyValue)
+                .removeValue()
         }
     }
 
@@ -413,7 +482,8 @@ class Game_Page : AppCompatActivity() {
     override fun onBackPressed() {
         removeCode()
         if (isCodeMaker) {
-            FirebaseDatabase.getInstance().reference.child(code).child("data").child(code).removeValue()
+            FirebaseDatabase.getInstance().reference.child(code).child("data").child(code)
+                .removeValue()
         }
         exitProcess(0)
     }

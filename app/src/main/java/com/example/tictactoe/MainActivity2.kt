@@ -50,47 +50,7 @@ class MainActivity2 : AppCompatActivity() {
         // param1, param2, param3 contain the values you set in the Dynamic Link
 //                }
 //            }
-//        binding.link.setOnClickListener {
 //
-//            // Initialize Firebase Dynamic Links
-//            val dynamicLinks = FirebaseDynamicLinks.getInstance()
-//            code = generateRandomCode(8)
-//            // Create dynamic link parameters
-//            val dynamicLinkUri = "https://tictactoi.page.link/code" // Replace with your dynamic link domain
-//            val linkBuilder = dynamicLinks.createDynamicLink()
-//                .setLink(Uri.parse("https://tictactoi.page.link/?code=$code"))
-//                .setDomainUriPrefix("https://tictactoi.page.link/")
-//
-//
-//            linkBuilder
-//                .setAndroidParameters(
-//                    DynamicLink.AndroidParameters.Builder("com.example.tictactoe")
-//                    .setMinimumVersion(1)
-//                    .build())
-//            val dynamicLink = linkBuilder.buildDynamicLink()
-//
-//// Generate a short dynamic link
-//            dynamicLinks.createDynamicLink()
-//                .setLongLink(dynamicLink.uri)
-//                .buildShortDynamicLink(ShortDynamicLink.Suffix.SHORT)
-//                .addOnSuccessListener(object : OnSuccessListener<ShortDynamicLink> {
-//                    override fun onSuccess(shortDynamicLink: ShortDynamicLink) {
-//                        val shortLink = shortDynamicLink.shortLink
-//                        val previewLink = shortDynamicLink.previewLink
-//                        // Handle the generated short link as needed (e.g., share it)
-//
-//                        val intent = Intent(Intent.ACTION_SEND)
-//                        intent.type = "text/plain"
-//                        intent.putExtra(Intent.EXTRA_TEXT, dynamicLinkUri)
-//                        startActivity(Intent.createChooser(intent, "Share Dynamic Link"))
-//                    }
-//                })
-//                .addOnFailureListener(object : OnFailureListener {
-//                    override fun onFailure(e: Exception) {
-//                        // Handle any errors that occur during the link generation process
-//                    }
-//                })
-//        }
 
 //        binding.link.setOnClickListener {
 //            code = generateRandomCode(8)
