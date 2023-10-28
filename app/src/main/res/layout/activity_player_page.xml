@@ -43,6 +43,14 @@
             android:backgroundTint="#D0AC00"
             android:textColor="@color/black"
             android:text="Multi Player" />
+        <Button
+            android:id="@+id/play"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#D0AC00"
+            android:textColor="@color/black"
+            android:text="Play via link" />
 
     </LinearLayout>
 </layout>
