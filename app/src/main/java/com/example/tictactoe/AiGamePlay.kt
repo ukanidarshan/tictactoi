@@ -125,7 +125,6 @@ class AiGamePlay : AppCompatActivity() {
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
-                Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
                 FirebaseDatabase.getInstance().reference.child(code)
                     .child("isExit").push().setValue("true")
                 exitProcess(1)
@@ -168,7 +167,6 @@ class AiGamePlay : AppCompatActivity() {
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
-                Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
                 FirebaseDatabase.getInstance().reference.child(code)
                     .child("isExit").push().setValue("true")
                 exitProcess(1)
@@ -199,7 +197,6 @@ class AiGamePlay : AppCompatActivity() {
 
             val yesBtn = dialog.findViewById(R.id.exitButton) as Button
             yesBtn.setOnClickListener {
-                Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
                 FirebaseDatabase.getInstance().reference.child(code)
                     .child("isExit").push().setValue("true")
                 exitProcess(1)
