@@ -21,6 +21,7 @@ import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.dynamiclinks.ShortDynamicLink
 
 var link = false
+
 class OnlineGamePage : AppCompatActivity() {
 
     var count: Int = 0
@@ -30,76 +31,14 @@ class OnlineGamePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_online_game_page)
 
-        if (intent.getStringExtra("bylink").equals("true")) {
-//            Handler.
-        }
-
-        ////             Initialize Firebase Dynamic Links
-        //            val dynamicLinks = FirebaseDynamicLinks.getInstance()
-        //            code = generateRandomCode(8)
-        //            // Create dynamic link parameters
-        //            val dynamicLinkUri =
-        //                "https://tictactoigame.page.link/online" // Replace with your dynamic link domain
-        //
-        //            val linkBuilder = dynamicLinks.createDynamicLink()
-        //                .setLink(Uri.parse("https://tictactoigame.page.link/?code=$code"))
-        //                .setDomainUriPrefix("https://tictactoigame.page.link/")
-        //
-        //
-        //            linkBuilder
-        //                .setAndroidParameters(
-        //                    DynamicLink.AndroidParameters.Builder("com.example.tictactoe")
-        //                    .setMinimumVersion(1)
-        //                    .build())
-        //            val dynamicLink = linkBuilder.buildDynamicLink()
-        //
-        //// Generate a short dynamic link
-        //            dynamicLinks.createDynamicLink()
-        //                .setLongLink(dynamicLink.uri)
-        //                .buildShortDynamicLink(ShortDynamicLink.Suffix.SHORT)
-        //                .addOnSuccessListener(object : OnSuccessListener<ShortDynamicLink> {
-        //                    override fun onSuccess(shortDynamicLink: ShortDynamicLink) {
-        //                        val shortLink = shortDynamicLink.shortLink
-        //                        val previewLink = shortDynamicLink.previewLink
-        //                        // Handle the generated short link as needed (e.g., share it)
-        //
-        //                        val intent = Intent(Intent.ACTION_SEND)
-        //                        intent.type = "text/plain"
-        //                        intent.putExtra(Intent.EXTRA_TEXT, dynamicLinkUri)
-        //                        startActivity(Intent.createChooser(intent, "Share Dynamic Link"))
-        //                    }
-        //                })
-        //                .addOnFailureListener(object : OnFailureListener {
-        //                    override fun onFailure(e: Exception) {
-        //                        // Handle any errors that occur during the link generation process
-        //                    }
-        //                })
-
         binding.generateLink.setOnClickListener {
             code = generateRandomCode(8)
 
 
-
-//            val dynamicLinkUri = Uri.Builder()
-//                .scheme("https")
-//                .authority("tictactoigame.page.link") // Your Dynamic Links domain
-//                .appendPath("online") // Path for deep link
-//                .appendQueryParameter("code", code)
-//
-//            // Share the Dynamic Link
-//            val dynamicLinkUrl = dynamicLinkUri.build().toString()
-//
-//
-////            FirebaseDatabase.getInstance().reference.child("link").child()
-//            val intent = Intent(Intent.ACTION_SEND)
-//            intent.type = "text/plain"
-//            intent.putExtra(Intent.EXTRA_TEXT, dynamicLinkUri.toString()+code)
-//            startActivity(Intent.createChooser(intent, "Share Dynamic Link"))
-
             link = true
 
             val dynamicLinkUrl = "https://tictactoigame.page.link/online"
-             // Replace with the unique code you want
+            // Replace with the unique code you want
             FirebaseDatabase.getInstance().reference.child(code).child("codes").push()
                 .setValue(code)
 
@@ -131,6 +70,11 @@ class OnlineGamePage : AppCompatActivity() {
 
 // Launch the share dialog
             startActivity(Intent.createChooser(sendIntent, "Share via"))
+
+            binding.progressBar.visibility = View.VISIBLE
+            binding.generateLink.visibility = View.GONE
+            binding.textView4.visibility = View.GONE
+
             Handler().postDelayed({
                 FirebaseDatabase.getInstance().reference.child(code).child("go")
                     .addValueEventListener(object : ValueEventListener {
@@ -140,26 +84,16 @@ class OnlineGamePage : AppCompatActivity() {
 
                         override fun onDataChange(snapshot: DataSnapshot) {
 
-                            if (isValueAvailable(snapshot, "true") ) {
-//                                                        binding.progressBar.visibility = View.VISIBLE
-//                                                        binding.Create.visibility = View.GONE
-//                                                        binding.idIVQrcode.visibility = View.GONE
-//                                                        binding.textView4.visibility = View.GONE
-//                                                        binding.getCode.visibility = View.GONE
-
+                            if (isValueAvailable(snapshot, "true")) {
                                 startActivity(
                                     Intent(
                                         this@OnlineGamePage,
                                         Game_Page::class.java
                                     )
                                 )
-//                                binding.Create.visibility = View.VISIBLE
-//                                binding.textView4.visibility =
-//                                    View.VISIBLE
-//                                binding.getCode.visibility =
-//                                    View.VISIBLE
-//                                binding.progressBar.visibility =
-//                                    View.GONE
+                                binding.progressBar.visibility = View.GONE
+                                binding.generateLink.visibility = View.VISIBLE
+                                binding.textView4.visibility = View.VISIBLE
                                 errorMsg("Please don't go back")
                             }
                         }
@@ -169,6 +103,7 @@ class OnlineGamePage : AppCompatActivity() {
 
         }
     }
+
     fun errorMsg(value: String) {
         Toast.makeText(this, value, Toast.LENGTH_SHORT).show()
     }

@@ -25,6 +25,22 @@ class PlayerPage : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player_page)
 
 
+
+
+        FirebaseDynamicLinks.getInstance()
+            .getDynamicLink(intent)
+            .addOnSuccessListener { pendingDynamicLinkData ->
+                if (pendingDynamicLinkData != null) {
+                    // The app was opened via a Dynamic Link
+                    val dynamicLink = pendingDynamicLinkData.link
+                    val customParameters = dynamicLink!!.getQueryParameters("code").toString()
+
+                    code = customParameters.replace("[", "").replace("]", "")
+                }
+            }
+
+
+
         Handler().postDelayed({
             FirebaseDatabase.getInstance().reference.child(code).child("link")
                 .addValueEventListener(object : ValueEventListener {
@@ -34,23 +50,25 @@ class PlayerPage : AppCompatActivity() {
 
                     override fun onDataChange(snapshot: DataSnapshot) {
 
-                        Toast.makeText(this@PlayerPage, ""+isValueAvailable(snapshot, "true"), Toast.LENGTH_SHORT).show()
-                        if (isValueAvailable(snapshot, "true") ) {
+                        if (isValueAvailable(snapshot, "true")) {
 
+                            binding.progressBar.visibility = View.VISIBLE
+                            binding.textView4.visibility = View.GONE
+                            binding.button11.visibility = View.GONE
+                            binding.button12.visibility = View.GONE
 
-
-                            val pendingDynamicLinkData = FirebaseDynamicLinks.getInstance().getDynamicLink(intent)
+                            val pendingDynamicLinkData =
+                                FirebaseDynamicLinks.getInstance().getDynamicLink(intent)
                             if (pendingDynamicLinkData != null) {
                                 pendingDynamicLinkData.addOnSuccessListener(this@PlayerPage) { pendingDynamicLinkData ->
                                     val dynamicLink = pendingDynamicLinkData.link
                                     if (dynamicLink != null) {
                                         code = dynamicLink.getQueryParameter("code").toString()
 
-                                        Toast.makeText(this@PlayerPage, "" + code, Toast.LENGTH_SHORT).show()
-
                                         isCodeMaker = false;
 
-                                        FirebaseDatabase.getInstance().reference.child(code).child("codes")
+                                        FirebaseDatabase.getInstance().reference.child(code)
+                                            .child("codes")
                                             .addValueEventListener(object : ValueEventListener {
                                                 override fun onCancelled(error: DatabaseError) {
                                                     TODO("Not yet implemented")
@@ -61,20 +79,22 @@ class PlayerPage : AppCompatActivity() {
                                                     data = isValueAvailable(snapshot, code)
                                                     Handler().postDelayed({
                                                         if (data == true) {
-                                                            FirebaseDatabase.getInstance().reference.child(code)
+                                                            FirebaseDatabase.getInstance().reference.child(
+                                                                code
+                                                            )
                                                                 .child("go").push()
                                                                 .setValue("true")
                                                             codeFound = true
                                                             accepted()
-//                                        binding.Create.visibility = View.VISIBLE
-//                                        binding.textView4.visibility = View.VISIBLE
-//                                        binding.getCode.visibility = View.VISIBLE
-//                                        binding.progressBar.visibility = View.GONE
+                                                            binding.progressBar.visibility = View.GONE
+                                                            binding.textView4.visibility = View.VISIBLE
+                                                            binding.button11.visibility = View.VISIBLE
+                                                            binding.button12.visibility = View.VISIBLE
                                                         } else {
-//                                        binding.Create.visibility = View.VISIBLE
-//                                        binding.textView4.visibility = View.VISIBLE
-//                                        binding.getCode.visibility = View.VISIBLE
-//                                        binding.progressBar.visibility = View.GONE
+                                                            binding.progressBar.visibility = View.GONE
+                                                            binding.textView4.visibility = View.VISIBLE
+                                                            binding.button11.visibility = View.VISIBLE
+                                                            binding.button12.visibility = View.VISIBLE
                                                             errorMsg("Invalid Code")
                                                         }
                                                     }, 2000)
@@ -84,10 +104,6 @@ class PlayerPage : AppCompatActivity() {
 
 
                                             })
-//                    val intent = Intent(this,OnlineGamePage::class.java)
-//                    intent.putExtra("code",code)
-//                    startActivity(intent)
-
                                         if (!code.isNullOrBlank()) {
                                             // You have successfully retrieved the custom code
                                             // You can now use the "code" variable in your app
@@ -99,34 +115,17 @@ class PlayerPage : AppCompatActivity() {
                             }
 
 
-
-
-//                                                        binding.progressBar.visibility = View.VISIBLE
-//                                                        binding.Create.visibility = View.GONE
-//                                                        binding.idIVQrcode.visibility = View.GONE
-//                                                        binding.textView4.visibility = View.GONE
-//                                                        binding.getCode.visibility = View.GONE
-
-
-//                                binding.Create.visibility = View.VISIBLE
-//                                binding.textView4.visibility =
-//                                    View.VISIBLE
-//                                binding.getCode.visibility =
-//                                    View.VISIBLE
-//                                binding.progressBar.visibility =
-//                                    View.GONE
+                            binding.progressBar.visibility = View.GONE
+                            binding.textView4.visibility = View.VISIBLE
+                            binding.button11.visibility = View.VISIBLE
+                            binding.button12.visibility = View.VISIBLE
                             errorMsg("Please don't go back")
                         }
                     }
+
                 })
         }, 1)
 
-
-        binding.play.setOnClickListener {
-
-
-
-        }
         binding.button11.setOnClickListener {
             startActivity(Intent(this, AiGamePlay::class.java))
         }

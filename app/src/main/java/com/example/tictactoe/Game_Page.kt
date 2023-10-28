@@ -55,7 +55,8 @@ class Game_Page : AppCompatActivity() {
 
                                 val body = dialog.findViewById(R.id.settitle) as TextView
                                 body.text = "Oops!"
-                                val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
+                                val dialogMessage =
+                                    dialog.findViewById(R.id.dialogMessage) as TextView
                                 dialogMessage.text =
                                     "Oponent leave the game " + "\n\n" + "Please Exit"
 
@@ -76,6 +77,36 @@ class Game_Page : AppCompatActivity() {
                     }
                 })
         }, 1)
+
+
+
+
+        Handler().postDelayed({
+
+            FirebaseDatabase.getInstance().reference.child(code).child("link")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        Handler().postDelayed({
+                            var check = isValueAvailable(snapshot, "true")
+                            if (check == true) {
+                                FirebaseDatabase.getInstance().reference.child(code).child("link")
+                                    .removeValue()
+
+                            }
+                        }, 1)
+                    }
+                })
+        }, 1)
+
+
+
+
+
 
         FirebaseDatabase.getInstance().reference.child(code).child("go").child(code)
             .removeValue()
@@ -179,26 +210,6 @@ class Game_Page : AppCompatActivity() {
         //Handler().postDelayed(Runnable { audio.pause() } , 500)
         buttonSelected.isEnabled = false
         checkwinner()
-        /*val checkWinner = checkwinner()
-        if(checkWinner == 1) {
-            Handler().postDelayed(Runnable { reset() }, 2000)
-        }*/
-
-        /*else
-        {
-            buttonSelected.text = "O"
-            audio.start()
-            buttonSelected.setTextColor(Color.parseColor("#D22BB804"))
-            //Handler().postDelayed(Runnable { audio.pause() } , 500)
-            activeUser = 1
-            player2.add(currCell)
-            emptyCells.add(currCell)
-            Handler().postDelayed(Runnable { audio.release() } , 200)
-            buttonSelected.isEnabled = false
-            val checkWinner  = checkwinner()
-            if(checkWinner == 1)
-                Handler().postDelayed(Runnable { reset() } , 4000)
-        }*/
 
     }
 
@@ -285,6 +296,11 @@ class Game_Page : AppCompatActivity() {
                 Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
                 FirebaseDatabase.getInstance().reference.child(code)
                     .child("isExit").push().setValue("true")
+
+
+
+
+
                 removeCode()
                 exitProcess(1)
             }
@@ -332,6 +348,11 @@ class Game_Page : AppCompatActivity() {
                 Toast.makeText(this, "Exit", Toast.LENGTH_SHORT).show()
                 FirebaseDatabase.getInstance().reference.child(code)
                     .child("isExit").push().setValue("true")
+
+
+
+
+
                 removeCode()
                 exitProcess(1)
             }
