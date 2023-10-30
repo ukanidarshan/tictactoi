@@ -36,41 +36,6 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main2)
 
-//        FirebaseDynamicLinks.getInstance()
-//            .getDynamicLink(intent)
-//            .addOnSuccessListener { pendingDynamicLinkData ->
-//                if (pendingDynamicLinkData != null) {
-//                    // The app was opened via a Dynamic Link
-//                    val dynamicLink = pendingDynamicLinkData.link
-//                    val customParameters = dynamicLink!!.getQueryParameters("game")
-//
-//                    Toast.makeText(this, ""+pendingDynamicLinkData, Toast.LENGTH_LONG).show()
-//                    Toast.makeText(this, ""+dynamicLink, Toast.LENGTH_SHORT).show()
-        // Now you can use these parameters in your app
-        // param1, param2, param3 contain the values you set in the Dynamic Link
-//                }
-//            }
-//
-
-//        binding.link.setOnClickListener {
-//            code = generateRandomCode(8)
-//            val dynamicLinkUri = Uri.Builder()
-//                .scheme("https")
-//                .authority("tictactoi.page.link") // Your Dynamic Links domain
-//                .appendPath("code") // Path for deep link
-//                .appendQueryParameter("game", code) // Add custom parameter
-//
-//            // Share the Dynamic Link
-//            val dynamicLinkUrl = dynamicLinkUri.build().toString()
-//
-//
-//            val intent = Intent(Intent.ACTION_SEND)
-//            intent.type = "text/plain"
-//            intent.putExtra(Intent.EXTRA_TEXT, dynamicLinkUrl)
-//            startActivity(Intent.createChooser(intent, "Share Dynamic Link"))
-//
-//        }
-
         binding.Create.setOnClickListener {
             code = "null";
             codeFound = false

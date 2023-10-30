@@ -2,6 +2,7 @@ package com.example.tictactoe
 
 import android.app.Dialog
 import android.graphics.Color
+import android.hardware.camera2.params.BlackLevelPattern
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -19,6 +20,7 @@ var playerTurn = true
 
 class AiGamePlay : AppCompatActivity() {
     lateinit var binding: ActivityAiGamePlayBinding
+    var line = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +74,7 @@ class AiGamePlay : AppCompatActivity() {
             buttonSelected.isEnabled = false
             val checkWinner = checkwinner()
             if (checkWinner == 1) {
-                Handler().postDelayed(Runnable { reset() }, 2000)
+                Handler().postDelayed(Runnable {  }, 2000)
             } else if (singleUser) {
                 Handler().postDelayed(Runnable { robot() }, 500)
                 //Toast.makeText(this , "Calling Robot" , Toast.LENGTH_SHORT).show()
@@ -90,127 +92,149 @@ class AiGamePlay : AppCompatActivity() {
 
             buttonSelected.isEnabled = false
             val checkWinner = checkwinner()
-            if (checkWinner == 1)
-                Handler().postDelayed(Runnable { reset() }, 4000)
         }
 
     }
 
     fun checkwinner(): Int {
-        if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) || (player1.contains(
-                1
-            ) && player1.contains(4) && player1.contains(7)) ||
-            (player1.contains(3) && player1.contains(6) && player1.contains(9)) || (player1.contains(
-                7
-            ) && player1.contains(8) && player1.contains(9)) ||
-            (player1.contains(4) && player1.contains(5) && player1.contains(6)) || (player1.contains(
-                1
-            ) && player1.contains(5) && player1.contains(9)) ||
-            player1.contains(3) && player1.contains(5) && player1.contains(7) || (player1.contains(2) && player1.contains(
-                5
-            ) && player1.contains(8))
-        ) {
-            player1Count += 1
-            buttonDisable()
-            disableReset()
-            val dialog = Dialog(this)
-            dialog.setCancelable(false)
-            dialog.setContentView(R.layout.custom_layout)
+        if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) || (player2.contains(1) && player2.contains(2) && player2.contains(3)))
+            line = 1
+        else if ((player1.contains(4) && player1.contains(5) && player1.contains(6))||(player2.contains(4) && player2.contains(5) && player2.contains(6)))
+            line = 2
+        else if ((player1.contains(7) && player1.contains(8) && player1.contains(9))||(player2.contains(7) && player2.contains(8) && player2.contains(9)))
+            line = 3
+        else if ((player1.contains(1) && player1.contains(4) && player1.contains(7))||(player2.contains(1) && player2.contains(4) && player2.contains(7)))
+            line = 4
+        else if ((player1.contains(2) && player1.contains(5) && player1.contains(8))||(player2.contains(2) && player2.contains(5) && player2.contains(8)))
+            line =5
+        else if ((player1.contains(3) && player1.contains(6) && player1.contains(9))||(player2.contains(3) && player2.contains(6) && player2.contains(9)))
+            line = 6
+        else if ((player1.contains(1) && player1.contains(5) && player1.contains(9))||(player2.contains(1) && player2.contains(5) && player2.contains(9)))
+            line = 7
+        else if (player1.contains(3) && player1.contains(5) && player1.contains(7)||player2.contains(3) && player2.contains(5) && player2.contains(7))
+            line = 8
 
-            val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "You won!"
-            val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text =
-                "Congratulations! Victory is yours. Well played!" + "\n\n" + "Do you want to play again"
 
-            val yesBtn = dialog.findViewById(R.id.exitButton) as Button
-            yesBtn.setOnClickListener {
-                FirebaseDatabase.getInstance().reference.child(code)
-                    .child("isExit").push().setValue("true")
-                exitProcess(1)
+            if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) || (player1.contains(
+                    1
+                ) && player1.contains(4) && player1.contains(7)) ||
+                (player1.contains(3) && player1.contains(6) && player1.contains(9)) || (player1.contains(
+                    7
+                ) && player1.contains(8) && player1.contains(9)) ||
+                (player1.contains(4) && player1.contains(5) && player1.contains(6)) || (player1.contains(
+                    1
+                ) && player1.contains(5) && player1.contains(9)) ||
+                player1.contains(3) && player1.contains(5) && player1.contains(7) || (player1.contains(
+                    2
+                ) && player1.contains(
+                    5
+                ) && player1.contains(8))
+            ) {
+                drawWinningLine(line)
+                player1Count += 1
+                buttonDisable()
+                disableReset()
+                val dialog = Dialog(this)
+                dialog.setCancelable(false)
+                dialog.setContentView(R.layout.custom_layout)
+
+                val body = dialog.findViewById(R.id.settitle) as TextView
+                body.text = "You won!"
+                val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
+                dialogMessage.text =
+                    "Congratulations! Victory is yours. Well played!" + "\n\n" + "Do you want to play again"
+
+                val yesBtn = dialog.findViewById(R.id.exitButton) as Button
+                yesBtn.setOnClickListener {
+                    FirebaseDatabase.getInstance().reference.child(code)
+                        .child("isExit").push().setValue("true")
+                    exitProcess(1)
+                }
+
+                val noBtn = dialog.findViewById(R.id.playAgainButton) as Button
+                noBtn.setOnClickListener {
+                    dialog.dismiss()
+                    reset()
+                }
+                Handler().postDelayed(Runnable { dialog.show() }, 1)
+                return 1
+
+
+            } else if ((player2.contains(1) && player2.contains(2) && player2.contains(3)) || (player2.contains(
+                    1
+                ) && player2.contains(4) && player2.contains(7)) ||
+                (player2.contains(3) && player2.contains(6) && player2.contains(9)) || (player2.contains(
+                    7
+                ) && player2.contains(8) && player2.contains(9)) ||
+                (player2.contains(4) && player2.contains(5) && player2.contains(6)) || (player2.contains(
+                    1
+                ) && player2.contains(5) && player2.contains(9)) ||
+                player2.contains(3) && player2.contains(5) && player2.contains(7) || (player2.contains(
+                    2
+                ) && player2.contains(
+                    5
+                ) && player2.contains(8))
+            ) {
+                drawWinningLine(line)
+                player2Count += 1
+                buttonDisable()
+                disableReset()
+                val dialog = Dialog(this)
+                dialog.setCancelable(false)
+                dialog.setContentView(R.layout.custom_layout)
+
+                val body = dialog.findViewById(R.id.settitle) as TextView
+                body.text = "You lose!"
+                val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
+                dialogMessage.text =
+                    "better luck for next time" + "\n\n" + "Do you want to play again"
+
+                val yesBtn = dialog.findViewById(R.id.exitButton) as Button
+                yesBtn.setOnClickListener {
+                    FirebaseDatabase.getInstance().reference.child(code)
+                        .child("isExit").push().setValue("true")
+                    exitProcess(1)
+                }
+
+                val noBtn = dialog.findViewById(R.id.playAgainButton) as Button
+                noBtn.setOnClickListener {
+                    dialog.dismiss()
+                    reset()
+                }
+                Handler().postDelayed(Runnable { dialog.show() }, 1)
+                return 1
+            } else if (emptyCells.contains(1) && emptyCells.contains(2) && emptyCells.contains(3) && emptyCells.contains(
+                    4
+                ) && emptyCells.contains(5) && emptyCells.contains(6) && emptyCells.contains(7) &&
+                emptyCells.contains(8) && emptyCells.contains(9)
+            ) {
+
+                val dialog = Dialog(this)
+                dialog.setCancelable(false)
+                dialog.setContentView(R.layout.custom_layout)
+
+                val body = dialog.findViewById(R.id.settitle) as TextView
+                body.text = "It's a Tie!"
+                val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
+                dialogMessage.text =
+                    "Try again for a decisive victory" + "\n\n" + "Do you want to play again?"
+
+                val yesBtn = dialog.findViewById(R.id.exitButton) as Button
+                yesBtn.setOnClickListener {
+                    FirebaseDatabase.getInstance().reference.child(code)
+                        .child("isExit").push().setValue("true")
+                    exitProcess(1)
+                }
+
+                val noBtn = dialog.findViewById(R.id.playAgainButton) as Button
+                noBtn.setOnClickListener {
+                    dialog.dismiss()
+                    reset()
+                }
+                dialog.show()
+                return 1
+
             }
-
-            val noBtn = dialog.findViewById(R.id.playAgainButton) as Button
-            noBtn.setOnClickListener {
-                dialog.dismiss()
-                reset()
-            }
-            Handler().postDelayed(Runnable { dialog.show() }, 1)
-            return 1
-
-
-        } else if ((player2.contains(1) && player2.contains(2) && player2.contains(3)) || (player2.contains(
-                1
-            ) && player2.contains(4) && player2.contains(7)) ||
-            (player2.contains(3) && player2.contains(6) && player2.contains(9)) || (player2.contains(
-                7
-            ) && player2.contains(8) && player2.contains(9)) ||
-            (player2.contains(4) && player2.contains(5) && player2.contains(6)) || (player2.contains(
-                1
-            ) && player2.contains(5) && player2.contains(9)) ||
-            player2.contains(3) && player2.contains(5) && player2.contains(7) || (player2.contains(2) && player2.contains(
-                5
-            ) && player2.contains(8))
-        ) {
-            player2Count += 1
-            buttonDisable()
-            disableReset()
-            val dialog = Dialog(this)
-            dialog.setCancelable(false)
-            dialog.setContentView(R.layout.custom_layout)
-
-            val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "You lose!"
-            val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text =
-                "better luck for next time" + "\n\n" + "Do you want to play again"
-
-            val yesBtn = dialog.findViewById(R.id.exitButton) as Button
-            yesBtn.setOnClickListener {
-                FirebaseDatabase.getInstance().reference.child(code)
-                    .child("isExit").push().setValue("true")
-                exitProcess(1)
-            }
-
-            val noBtn = dialog.findViewById(R.id.playAgainButton) as Button
-            noBtn.setOnClickListener {
-                dialog.dismiss()
-                reset()
-            }
-            Handler().postDelayed(Runnable { dialog.show() }, 1)
-            return 1
-        } else if (emptyCells.contains(1) && emptyCells.contains(2) && emptyCells.contains(3) && emptyCells.contains(
-                4
-            ) && emptyCells.contains(5) && emptyCells.contains(6) && emptyCells.contains(7) &&
-            emptyCells.contains(8) && emptyCells.contains(9)
-        ) {
-
-            val dialog = Dialog(this)
-            dialog.setCancelable(false)
-            dialog.setContentView(R.layout.custom_layout)
-
-            val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "Stalemate: It's a Tie!"
-            val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
-            dialogMessage.text =
-                "Try again for a decisive victory" + "\n\n" + "Do you want to play again?"
-
-            val yesBtn = dialog.findViewById(R.id.exitButton) as Button
-            yesBtn.setOnClickListener {
-                FirebaseDatabase.getInstance().reference.child(code)
-                    .child("isExit").push().setValue("true")
-                exitProcess(1)
-            }
-
-            val noBtn = dialog.findViewById(R.id.playAgainButton) as Button
-            noBtn.setOnClickListener {
-                dialog.dismiss()
-                reset()
-            }
-            dialog.show()
-            return 1
-
-        }
         return 0
     }
 
@@ -240,6 +264,33 @@ class AiGamePlay : AppCompatActivity() {
             buttonselected.text = ""
             binding.textView.text = "Player1 : $player1Count"
             binding.textView2.text = "Player2 : $player2Count"
+
+        }
+        when (line) {
+            1 -> {
+                binding.line1.visibility = View.GONE
+            }
+            2 -> {
+                binding.line2.visibility = View.GONE
+            }
+            3 -> {
+                binding.line3.visibility = View.GONE
+            }
+            4 -> {
+                binding.line4.visibility = View.GONE
+            }
+            5 -> {
+                binding.line5.visibility = View.GONE
+            }
+            6 -> {
+                binding.line6.visibility = View.GONE
+            }
+            7 -> {
+                binding.line7.visibility = View.GONE
+            }
+            8 -> {
+                binding.line8.visibility = View.GONE
+            }
         }
     }
 
@@ -270,8 +321,6 @@ class AiGamePlay : AppCompatActivity() {
             player2.add(rnd)
             buttonselected.isEnabled = false
             var checkWinner = checkwinner()
-            if (checkWinner == 1)
-                Handler().postDelayed(Runnable { reset() }, 2000)
 
         }
     }
@@ -302,4 +351,37 @@ class AiGamePlay : AppCompatActivity() {
         binding.button10.isEnabled = false
         Handler().postDelayed(Runnable { binding.button10.isEnabled = true }, 2200)
     }
+
+    private fun drawWinningLine(linenum: Int) {
+        // Draw a line or change colors in your UI based on the cells involved in the winningCombination
+        // For instance, if using buttons, change background colors of winning cells to indicate the win
+
+        when (linenum) {
+            1 -> {
+                binding.line1.visibility = View.VISIBLE
+            }
+            2 -> {
+                binding.line2.visibility = View.VISIBLE
+            }
+            3 -> {
+                binding.line3.visibility = View.VISIBLE
+            }
+            4 -> {
+                binding.line4.visibility = View.VISIBLE
+            }
+            5 -> {
+                binding.line5.visibility = View.VISIBLE
+            }
+            6 -> {
+                binding.line6.visibility = View.VISIBLE
+            }
+            7 -> {
+                binding.line7.visibility = View.VISIBLE
+            }
+            8 -> {
+                binding.line8.visibility = View.VISIBLE
+            }
+        }
+    }
+
 }

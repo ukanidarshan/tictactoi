@@ -15,6 +15,14 @@
         android:gravity="center"
         android:background="@drawable/tic">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:layout_gravity="start"
+            android:layout_margin="30dp"
+            />
+
 
         <TextView
             android:id="@+id/textView4"

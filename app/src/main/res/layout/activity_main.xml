@@ -16,6 +16,15 @@
         android:background="@drawable/tic">
 
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="start"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:layout_margin="30dp"
+            />
+
+
+        <ImageView
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:src="@drawable/icon_foreground"

@@ -28,7 +28,7 @@ class Game_Page : AppCompatActivity() {
     var isMyMove = isCodeMaker;
     var playerTurn = true
     var count = 0
-
+    var line = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game_page)
@@ -79,8 +79,6 @@ class Game_Page : AppCompatActivity() {
         }, 1)
 
 
-
-
         Handler().postDelayed({
 
             FirebaseDatabase.getInstance().reference.child(code).child("link")
@@ -104,6 +102,28 @@ class Game_Page : AppCompatActivity() {
         }, 1)
 
 
+        Handler().postDelayed({
+
+            FirebaseDatabase.getInstance().reference.child(code).child("reset")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        Handler().postDelayed({
+                            var check = isValueAvailable(snapshot, "true")
+                            if (check == true) {
+                                reset()
+                                FirebaseDatabase.getInstance().reference.child(code).child("reset")
+                                    .removeValue()
+                            }
+                        }, 1)
+                    }
+                })
+        }, 1)
+
 
 
 
@@ -114,6 +134,8 @@ class Game_Page : AppCompatActivity() {
         binding.button110.setOnClickListener {
             reset()
             errorMsg("Game Reset")
+            FirebaseDatabase.getInstance().reference.child(code).child("reset").push()
+                .setValue("true")
         }
         FirebaseDatabase.getInstance().reference.child(code).child("data").child(code)
             .addChildEventListener(object : ChildEventListener {
@@ -145,7 +167,7 @@ class Game_Page : AppCompatActivity() {
 
                 override fun onChildRemoved(snapshot: DataSnapshot) {
                     reset()
-                    binding.textView3.text = "Turn : Player 1"
+                    binding.textView3.text = "Turn : Your"
                 }
 
             })
@@ -190,13 +212,13 @@ class Game_Page : AppCompatActivity() {
 
         if (count == 0) {
             buttonSelected.text = "X"
-            binding.textView3.text = "Turn : Player 2"
+            binding.textView3.text = "Turn : Opponent"
             buttonSelected.setTextColor(Color.parseColor("#EC0C0C"))
             buttonSelected.setBackgroundColor(Color.parseColor("#A7C5EB"))
             count++
         } else {
             buttonSelected.text = "O"
-            binding.textView3.text = "Turn : Player 1"
+            binding.textView3.text = "Turn : Your"
             buttonSelected.setTextColor(Color.parseColor("#D22BB804"))
             buttonSelected.setBackgroundColor(Color.parseColor("#F5DF99"))
             count--
@@ -234,13 +256,13 @@ class Game_Page : AppCompatActivity() {
 
             if (count == 0) {
                 buttonselected.text = "X"
-                binding.textView3.text = "Turn : Player 2"
+                binding.textView3.text = "Turn : Opponent"
                 buttonselected.setTextColor(Color.parseColor("#EC0C0C"))
                 buttonselected.setBackgroundColor(Color.parseColor("#A7C5EB"))
                 count++
             } else {
                 buttonselected.text = "O"
-                binding.textView3.text = "Turn : Player 1"
+                binding.textView3.text = "Turn : Your"
                 buttonselected.setTextColor(Color.parseColor("#D22BB804"))
                 buttonselected.setBackgroundColor(Color.parseColor("#F5DF99"))
                 count--
@@ -260,6 +282,26 @@ class Game_Page : AppCompatActivity() {
     }
 
     fun checkwinner(): Int {
+
+
+        if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) || (player2.contains(1) && player2.contains(2) && player2.contains(3)))
+            line = 1
+        else if ((player1.contains(4) && player1.contains(5) && player1.contains(6)) || (player2.contains(4) && player2.contains(5) && player2.contains(6)))
+            line = 2
+        else if ((player1.contains(7) && player1.contains(8) && player1.contains(9)) || (player2.contains(7) && player2.contains(8) && player2.contains(9)))
+            line = 3
+        else if ((player1.contains(1) && player1.contains(4) && player1.contains(7)) || (player2.contains(1) && player2.contains(4) && player2.contains(7)))
+            line = 4
+        else if ((player1.contains(2) && player1.contains(5) && player1.contains(8)) || (player2.contains(2) && player2.contains(5) && player2.contains(8)))
+            line = 5
+        else if ((player1.contains(3) && player1.contains(6) && player1.contains(9)) || (player2.contains(3) && player2.contains(6) && player2.contains(9)))
+            line = 6
+        else if ((player1.contains(1) && player1.contains(5) && player1.contains(9)) || (player2.contains(1) && player2.contains(5) && player2.contains(9)))
+            line = 7
+        else if (player1.contains(3) && player1.contains(5) && player1.contains(7) || player2.contains(3) && player2.contains(5) && player2.contains(7))
+            line = 8
+
+
         if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) || (player1.contains(
                 1
             ) && player1.contains(4) && player1.contains(7)) ||
@@ -280,7 +322,7 @@ class Game_Page : AppCompatActivity() {
             disableReset()
             count = 0
 
-
+            drawWinningLine(line)
             val dialog = Dialog(this)
             dialog.setCancelable(false)
             dialog.setContentView(R.layout.custom_layout)
@@ -329,6 +371,7 @@ class Game_Page : AppCompatActivity() {
                 5
             ) && player2.contains(8))
         ) {
+            drawWinningLine(line)
             player2Count += 1
             buttonDisable()
             count = 0
@@ -408,7 +451,7 @@ class Game_Page : AppCompatActivity() {
         player2.clear()
         emptyCells.clear()
         activeUser = 1;
-        binding.textView3.text = "Turn : Player 1"
+        binding.textView3.text = "Turn : Your"
 
 
 
@@ -433,8 +476,8 @@ class Game_Page : AppCompatActivity() {
             }
             buttonselected.isEnabled = true
             buttonselected.text = ""
-            binding.textView.text = "Player1 : $player1Count"
-            binding.textView2.text = "Player2 : $player2Count"
+            binding.textView.text = " You : $player1Count"
+            binding.textView2.text = " Opponent : $player2Count"
             buttonselected.setBackgroundColor(Color.parseColor("#F1F6F9"))
             isMyMove = isCodeMaker
             //startActivity(Intent(this,ThirdPage::class.java))
@@ -444,6 +487,32 @@ class Game_Page : AppCompatActivity() {
             }
 
 
+        }
+        when (line) {
+            1 -> {
+                binding.line1.visibility = View.GONE
+            }
+            2 -> {
+                binding.line2.visibility = View.GONE
+            }
+            3 -> {
+                binding.line3.visibility = View.GONE
+            }
+            4 -> {
+                binding.line4.visibility = View.GONE
+            }
+            5 -> {
+                binding.line5.visibility = View.GONE
+            }
+            6 -> {
+                binding.line6.visibility = View.GONE
+            }
+            7 -> {
+                binding.line7.visibility = View.GONE
+            }
+            8 -> {
+                binding.line8.visibility = View.GONE
+            }
         }
     }
 
@@ -529,5 +598,36 @@ class Game_Page : AppCompatActivity() {
                 .removeValue()
         }
         exitProcess(0)
+    }
+    private fun drawWinningLine(linenum: Int) {
+        // Draw a line or change colors in your UI based on the cells involved in the winningCombination
+        // For instance, if using buttons, change background colors of winning cells to indicate the win
+
+        when (linenum) {
+            1 -> {
+                binding.line1.visibility = View.VISIBLE
+            }
+            2 -> {
+                binding.line2.visibility = View.VISIBLE
+            }
+            3 -> {
+                binding.line3.visibility = View.VISIBLE
+            }
+            4 -> {
+                binding.line4.visibility = View.VISIBLE
+            }
+            5 -> {
+                binding.line5.visibility = View.VISIBLE
+            }
+            6 -> {
+                binding.line6.visibility = View.VISIBLE
+            }
+            7 -> {
+                binding.line7.visibility = View.VISIBLE
+            }
+            8 -> {
+                binding.line8.visibility = View.VISIBLE
+            }
+        }
     }
 }
