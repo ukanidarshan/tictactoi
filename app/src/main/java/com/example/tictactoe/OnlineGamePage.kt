@@ -30,7 +30,9 @@ class OnlineGamePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_online_game_page)
-
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
         binding.generateLink.setOnClickListener {
             code = generateRandomCode(8)
 

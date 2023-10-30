@@ -35,7 +35,9 @@ class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main2)
-
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
         binding.Create.setOnClickListener {
             code = "null";
             codeFound = false

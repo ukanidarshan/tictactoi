@@ -24,7 +24,9 @@ class PlayerPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player_page)
 
-
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
 
 
         FirebaseDynamicLinks.getInstance()

@@ -33,6 +33,10 @@ class Game_Page : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_game_page)
 
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
+
         Handler().postDelayed({
 
             FirebaseDatabase.getInstance().reference.child(code).child("isExit")

@@ -17,7 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
 
-
+        binding.back.setOnClickListener {
+            onBackPressed()
+        }
         binding.local.setOnClickListener{
             startActivity(Intent(this,MainActivity2::class.java))
         }
