@@ -54,17 +54,20 @@ class PlayerPage : AppCompatActivity() {
 
                         if (isValueAvailable(snapshot, "true")) {
 
-                            binding.progressBar.visibility = View.VISIBLE
-                            binding.textView4.visibility = View.GONE
-                            binding.button11.visibility = View.GONE
-                            binding.button12.visibility = View.GONE
-
                             val pendingDynamicLinkData =
                                 FirebaseDynamicLinks.getInstance().getDynamicLink(intent)
                             if (pendingDynamicLinkData != null) {
                                 pendingDynamicLinkData.addOnSuccessListener(this@PlayerPage) { pendingDynamicLinkData ->
                                     val dynamicLink = pendingDynamicLinkData.link
                                     if (dynamicLink != null) {
+
+                                        binding.progressBar.visibility = View.VISIBLE
+                                        binding.textView4.visibility = View.GONE
+                                        binding.button11.visibility = View.GONE
+                                        binding.button12.visibility = View.GONE
+                                        binding.back.visibility = View.GONE
+
+
                                         code = dynamicLink.getQueryParameter("code").toString()
 
                                         isCodeMaker = false;
@@ -92,11 +95,13 @@ class PlayerPage : AppCompatActivity() {
                                                             binding.textView4.visibility = View.VISIBLE
                                                             binding.button11.visibility = View.VISIBLE
                                                             binding.button12.visibility = View.VISIBLE
+                                                            binding.back.visibility = View.VISIBLE
                                                         } else {
                                                             binding.progressBar.visibility = View.GONE
                                                             binding.textView4.visibility = View.VISIBLE
                                                             binding.button11.visibility = View.VISIBLE
                                                             binding.button12.visibility = View.VISIBLE
+                                                            binding.back.visibility = View.VISIBLE
                                                             errorMsg("Invalid Code")
                                                         }
                                                     }, 2000)
@@ -121,6 +126,7 @@ class PlayerPage : AppCompatActivity() {
                             binding.textView4.visibility = View.VISIBLE
                             binding.button11.visibility = View.VISIBLE
                             binding.button12.visibility = View.VISIBLE
+                            binding.back.visibility = View.VISIBLE
                             errorMsg("Please don't go back")
                         }
                     }

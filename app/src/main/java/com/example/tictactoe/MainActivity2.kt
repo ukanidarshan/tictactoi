@@ -56,6 +56,7 @@ class MainActivity2 : AppCompatActivity() {
                 binding.idIVQrcode.visibility = View.VISIBLE
                 binding.textView4.visibility = View.GONE
                 binding.getCode.visibility = View.GONE
+                binding.back.visibility = View.GONE
 
                 isCodeMaker = true;
                 FirebaseDatabase.getInstance().reference.child(code).child("codes")
@@ -70,21 +71,19 @@ class MainActivity2 : AppCompatActivity() {
                             Handler().postDelayed({
 
                                 if (check == true) {
-//                                    binding.Create.visibility = View.VISIBLE
-//                                    binding.textView4.visibility = View.VISIBLE
-//                                    binding.getCode.visibility = View.VISIBLE
-//                                    binding.progressBar.visibility = View.GONE
 
                                 } else {
 
 
-                                    FirebaseDatabase.getInstance().reference.child(code).child("codes").push()
+                                    FirebaseDatabase.getInstance().reference.child(code)
+                                        .child("codes").push()
                                         .setValue(code)
                                     isValueAvailable(snapshot, code)
 
                                     checkTemp = false
                                     Handler().postDelayed({
-                                        FirebaseDatabase.getInstance().reference.child(code).child("go")
+                                        FirebaseDatabase.getInstance().reference.child(code)
+                                            .child("go")
                                             .addValueEventListener(object : ValueEventListener {
                                                 override fun onCancelled(error: DatabaseError) {
                                                     TODO("Not yet implemented")
@@ -92,27 +91,20 @@ class MainActivity2 : AppCompatActivity() {
 
                                                 override fun onDataChange(snapshot: DataSnapshot) {
 
-                                                    if (isValueAvailable(snapshot, "true") ) {
-//                                                        binding.progressBar.visibility = View.VISIBLE
-//                                                        binding.Create.visibility = View.GONE
-//                                                        binding.idIVQrcode.visibility = View.GONE
-//                                                        binding.textView4.visibility = View.GONE
-//                                                        binding.getCode.visibility = View.GONE
+                                                    if (isValueAvailable(snapshot, "true")) {
 
-                                                            startActivity(
-                                                                Intent(
-                                                                    this@MainActivity2,
-                                                                    Game_Page::class.java
-                                                                )
+                                                        startActivity(
+                                                            Intent(
+                                                                this@MainActivity2,
+                                                                Game_Page::class.java
                                                             )
-                                                            binding.Create.visibility = View.VISIBLE
-                                                            binding.textView4.visibility =
-                                                                View.VISIBLE
-                                                            binding.getCode.visibility =
-                                                                View.VISIBLE
-                                                            binding.progressBar.visibility =
-                                                                View.GONE
-                                                            errorMsg("Please don't go back")
+                                                        )
+                                                        binding.Create.visibility = View.VISIBLE
+                                                        binding.textView4.visibility = View.VISIBLE
+                                                        binding.getCode.visibility = View.VISIBLE
+                                                        binding.back.visibility = View.VISIBLE
+                                                        binding.progressBar.visibility = View.GONE
+                                                        errorMsg("Please don't go back")
                                                     }
                                                 }
                                             })
@@ -129,6 +121,7 @@ class MainActivity2 : AppCompatActivity() {
                 binding.Create.visibility = View.VISIBLE
                 binding.textView4.visibility = View.VISIBLE
                 binding.getCode.visibility = View.VISIBLE
+                binding.back.visibility = View.VISIBLE
                 binding.progressBar.visibility = View.GONE
                 errorMsg("Enter Code Properly")
             }
@@ -143,55 +136,6 @@ class MainActivity2 : AppCompatActivity() {
 
         }
 
-//        binding.Join.setOnClickListener {
-//            codeFound = false
-//            checkTemp = true
-//            keyValue = "null"
-//
-//            if (code != "null" && code != null && code != "") {
-//                binding.Create.visibility = View.GONE
-//                              binding.textView4.visibility = View.GONE
-//                binding.getCode.visibility = View.GONE
-//                binding.progressBar.visibility = View.VISIBLE
-//
-//                FirebaseDatabase.getInstance().reference.child("codes")
-//                    .addValueEventListener(object : ValueEventListener {
-//                        override fun onCancelled(error: DatabaseError) {
-//                            TODO("Not yet implemented")
-//                        }
-//
-//                        override fun onDataChange(snapshot: DataSnapshot) {
-//                            data = isValueAvailable(snapshot, code)
-//
-//                            Handler().postDelayed({
-//                                if (data == true) {
-//                                    codeFound = true
-//                                    accepted()
-//                                    binding.Create.visibility = View.VISIBLE
-//
-//                                    binding.textView4.visibility = View.VISIBLE
-//                                    binding.getCode.visibility = View.VISIBLE
-//                                    binding.progressBar.visibility = View.GONE
-//                                } else {
-//                                    binding.Create.visibility = View.VISIBLE
-//
-//                                    binding.textView4.visibility = View.VISIBLE
-//                                    binding.getCode.visibility = View.VISIBLE
-//                                    binding.progressBar.visibility = View.GONE
-//                                    errorMsg("Invalid Code")
-//                                }
-//                            }, 2000)
-//
-//
-//                        }
-//
-//
-//                    })
-//
-//            } else {
-//                errorMsg("Enter Code Properly")
-//            }
-//        }
     }
 
     fun accepted() {
@@ -200,6 +144,7 @@ class MainActivity2 : AppCompatActivity() {
             startActivity(Intent(this, Game_Page::class.java))
             binding.Create.visibility = View.VISIBLE
             binding.textView4.visibility = View.VISIBLE
+            binding.back.visibility = View.VISIBLE
             binding.getCode.visibility = View.VISIBLE
             binding.progressBar.visibility = View.GONE
             errorMsg("Please don't go back")
@@ -259,6 +204,7 @@ class MainActivity2 : AppCompatActivity() {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.Create.visibility = View.GONE
                 binding.textView4.visibility = View.GONE
+                binding.back.visibility = View.GONE
                 binding.getCode.visibility = View.GONE
 
                 FirebaseDatabase.getInstance().reference.child(code).child("codes")
@@ -272,18 +218,21 @@ class MainActivity2 : AppCompatActivity() {
                             data = isValueAvailable(snapshot, code)
                             Handler().postDelayed({
                                 if (data == true) {
-                                    FirebaseDatabase.getInstance().reference.child(code).child("go").push()
+                                    FirebaseDatabase.getInstance().reference.child(code).child("go")
+                                        .push()
                                         .setValue("true")
                                     codeFound = true
                                     accepted()
                                     binding.Create.visibility = View.VISIBLE
                                     binding.textView4.visibility = View.VISIBLE
                                     binding.getCode.visibility = View.VISIBLE
+                                    binding.back.visibility = View.VISIBLE
                                     binding.progressBar.visibility = View.GONE
                                 } else {
                                     binding.Create.visibility = View.VISIBLE
                                     binding.textView4.visibility = View.VISIBLE
                                     binding.getCode.visibility = View.VISIBLE
+                                    binding.back.visibility = View.VISIBLE
                                     binding.progressBar.visibility = View.GONE
                                     errorMsg("Invalid Code")
                                 }

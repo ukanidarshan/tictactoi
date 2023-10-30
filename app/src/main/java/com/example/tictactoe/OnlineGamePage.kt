@@ -76,6 +76,7 @@ class OnlineGamePage : AppCompatActivity() {
             binding.progressBar.visibility = View.VISIBLE
             binding.generateLink.visibility = View.GONE
             binding.textView4.visibility = View.GONE
+            binding.back.visibility = View.GONE
 
             Handler().postDelayed({
                 FirebaseDatabase.getInstance().reference.child(code).child("go")
@@ -96,6 +97,7 @@ class OnlineGamePage : AppCompatActivity() {
                                 binding.progressBar.visibility = View.GONE
                                 binding.generateLink.visibility = View.VISIBLE
                                 binding.textView4.visibility = View.VISIBLE
+                                binding.back.visibility = View.VISIBLE
                                 errorMsg("Please don't go back")
                             }
                         }
