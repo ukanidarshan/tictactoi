@@ -312,7 +312,7 @@ class AiGamePlay : AppCompatActivity() {
             buttonselected.text = ""
             binding.textView.text = "${intent.getStringExtra("player2")} : $player1Count"
             binding.textView2.text = "${intent.getStringExtra("player1")} : $player2Count"
-            binding.turn.text = intent.getStringExtra("player1")
+            binding.turn.text = "turn : "+intent.getStringExtra("player1")
 
 
         }

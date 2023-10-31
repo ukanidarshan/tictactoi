@@ -12,18 +12,19 @@ class info : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_info)
 
-
-        binding.player1.setOnClickListener{
-            binding.player1.hint = ""
-        }
-        binding.player2.setOnClickListener{
-            binding.player1.hint = ""
+        binding.back.setOnClickListener {
+            onBackPressed()
         }
 
         binding.play.setOnClickListener{
-            if (binding.player1.text.toString().isEmpty()||binding.player2.text.toString().isEmpty())
+            if (binding.player1.text.isEmpty())
             {
-                error("Enter Player's name")
+                binding.player1.setError("enter Player name")
+                return@setOnClickListener
+            }
+            else if(binding.player2.text.isEmpty())
+            {
+                binding.player2.setError("enter Player name")
                 return@setOnClickListener
             }
             else{
