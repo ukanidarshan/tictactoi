@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             onBackPressed()
         }
+
         binding.local.setOnClickListener{
             startActivity(Intent(this,MainActivity2::class.java))
         }
