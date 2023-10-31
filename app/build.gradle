@@ -61,4 +61,7 @@ dependencies {
     //link
     implementation 'com.google.firebase:firebase-dynamic-links:21.2.0'
 
+    //gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+
 }

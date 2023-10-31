@@ -6,7 +6,6 @@
     <data>
 
     </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,39 +14,120 @@
         android:gravity="center"
         android:background="@drawable/tic">
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_gravity="start"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back"
-            android:layout_margin="30dp"
-            />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_gravity="start"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                android:layout_margin="30dp"
+                />
 
 
-        <ImageView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:src="@drawable/icon_foreground"
-            android:layout_marginBottom="50dp" />
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/icon_foreground"
+                android:layout_marginBottom="50dp" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/gif"
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:visibility="gone"
+                    android:background="#fff"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dogif" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/cross"
+                    android:layout_toRightOf="@id/gif"
+                    android:layout_marginLeft="-20dp"
+                    android:id="@+id/close"/>
+            </RelativeLayout>
 
-        <Button
-            android:id="@+id/local"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:backgroundTint="#D0AC00"
-            android:textColor="@color/black"
-            android:text="Play Local" />
 
-        <Button
-            android:id="@+id/Online"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:backgroundTint="#D0AC00"
-            android:textColor="@color/black"
-            android:text="Play online" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="30dp">
+                <Button
+                    android:id="@+id/local"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#D0AC00"
+                    android:textColor="@color/black"
+                    android:text="Play Local" />
+                <ImageView
+                    android:id="@+id/infol"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/information"
+                    android:layout_gravity="center"/>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="30dp">
+                <Button
+                    android:id="@+id/Online"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#D0AC00"
+                    android:textColor="@color/black"
+                    android:text="Play online" />
+                <ImageView
+                    android:id="@+id/infoo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/information"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="30dp">
+                <Button
+                    android:id="@+id/Offline"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#D0AC00"
+                    android:textColor="@color/black"
+                    android:text="Play offline" />
+                <ImageView
+                    android:id="@+id/infoof"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/information"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
     </LinearLayout>
+
+
 </layout>

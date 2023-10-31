@@ -27,6 +27,14 @@ class AiGamePlay : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ai_game_play)
 
+        if (!singleUser){
+            binding.turn.visibility = View.VISIBLE
+            binding.turn.text = "Turn : ${intent.getStringExtra("player1")}"
+        }
+        else{
+            binding.turn.visibility = View.GONE
+        }
+
         binding.back.setOnClickListener {
             onBackPressed()
         }
@@ -72,6 +80,7 @@ class AiGamePlay : AppCompatActivity() {
             buttonSelected.text = "X"
             buttonSelected.setTextColor(Color.parseColor("#EC0C0C"))
             buttonSelected.setBackgroundColor(Color.parseColor("#A7C5EB"))
+            binding.turn.text = "Turn : ${intent.getStringExtra("player2")}"
             player1.add(currCell)
             emptyCells.add(currCell)
             //Handler().postDelayed(Runnable { audio.pause() } , 500)
@@ -89,6 +98,7 @@ class AiGamePlay : AppCompatActivity() {
             buttonSelected.text = "O"
             buttonSelected.setTextColor(Color.parseColor("#D22BB804"))
             buttonSelected.setBackgroundColor(Color.parseColor("#F5DF99"))
+            binding.turn.text = "Turn : ${intent.getStringExtra("player1")}"
             //Handler().postDelayed(Runnable { audio.pause() } , 500)
             activeUser = 1
             player2.add(currCell)
@@ -167,7 +177,12 @@ class AiGamePlay : AppCompatActivity() {
             dialog.setContentView(R.layout.custom_layout)
 
             val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "You won!"
+            if (singleUser) {
+                body.text = "You won!"
+            }
+            else{
+                body.text = intent.getStringExtra("player1")+" Won!"
+            }
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
             dialogMessage.text =
                 "Congratulations! Victory is yours. Well played!" + "\n\n" + "Do you want to play again"
@@ -212,7 +227,12 @@ class AiGamePlay : AppCompatActivity() {
             dialog.setContentView(R.layout.custom_layout)
 
             val body = dialog.findViewById(R.id.settitle) as TextView
-            body.text = "You lose!"
+            if (singleUser) {
+                body.text = "You won!"
+            }
+            else{
+                body.text = intent.getStringExtra("player2")+" Won!"
+            }
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
             dialogMessage.text =
                 "better luck for next time" + "\n\n" + "Do you want to play again"
@@ -290,8 +310,10 @@ class AiGamePlay : AppCompatActivity() {
             buttonselected.isEnabled = true
             buttonselected.setBackgroundColor(Color.parseColor("#F1F6F9"))
             buttonselected.text = ""
-            binding.textView.text = "Player1 : $player1Count"
-            binding.textView2.text = "Player2 : $player2Count"
+            binding.textView.text = "${intent.getStringExtra("player2")} : $player1Count"
+            binding.textView2.text = "${intent.getStringExtra("player1")} : $player2Count"
+            binding.turn.text = intent.getStringExtra("player1")
+
 
         }
         when (line) {

@@ -18,12 +18,21 @@
             android:background="#212845"
             android:gravity="center"
             tools:context=".AiGamePlay">
+            <TextView
+                android:id="@+id/turn"
+                android:layout_width="110dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="Turn : 0"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_margin="10dp"
                 android:gravity="center">
+
 
                 <TextView
                     android:id="@+id/textView"
