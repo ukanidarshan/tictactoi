@@ -1,18 +1,17 @@
 package com.example.tictactoe
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import com.example.tictactoe.databinding.ActivityPlayerPageBinding
-import com.google.android.material.navigation.NavigationView
 import com.google.android.play.integrity.internal.t
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,17 +24,45 @@ var singleUser = true
 
 class PlayerPage : AppCompatActivity() {
     lateinit var binding: ActivityPlayerPageBinding
-
     var data = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, com.example.tictactoe.R.layout.activity_player_page)
+        binding = DataBindingUtil.setContentView(
+            this,
+            com.example.tictactoe.R.layout.activity_player_page
+        )
+
+
+
+        binding.nv.setNavigationItemSelectedListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.terms -> {
+                    // Handle clicks on nav_item_1
+                    Toast.makeText(this, "Item 1 Clicked", Toast.LENGTH_SHORT).show()
+                }
+                R.id.setting -> {
+                    // Handle clicks on nav_item_2
+                    Toast.makeText(this, "Item 2 Clicked", Toast.LENGTH_SHORT).show()
+                }
+                R.id.Feedback -> {
+                    startActivity(Intent(this,FeedbackActivity::class.java))
+                    // Handle clicks on nav_item_2
+                    Toast.makeText(this, "Item 2 Clicked", Toast.LENGTH_SHORT).show()
+                }
+                R.id.about -> {
+                    // Handle clicks on nav_item_2
+                    Toast.makeText(this, "Item 2 Clicked", Toast.LENGTH_SHORT).show()
+                }
+                // Add cases for more menu items if needed
+            }
+            true // Return true to close the drawer
+        }
 
 
 
 
 
-        binding.menu.setOnClickListener{
+        binding.menu.setOnClickListener {
             if (!binding.drawer.isDrawerOpen(GravityCompat.START)) {
                 binding.drawer.openDrawer(GravityCompat.START);
             } else {
@@ -106,16 +133,24 @@ class PlayerPage : AppCompatActivity() {
                                                                 .setValue("true")
                                                             codeFound = true
                                                             accepted()
-                                                            binding.progressBar.visibility = View.GONE
-                                                            binding.textView4.visibility = View.VISIBLE
-                                                            binding.button11.visibility = View.VISIBLE
-                                                            binding.button12.visibility = View.VISIBLE
+                                                            binding.progressBar.visibility =
+                                                                View.GONE
+                                                            binding.textView4.visibility =
+                                                                View.VISIBLE
+                                                            binding.button11.visibility =
+                                                                View.VISIBLE
+                                                            binding.button12.visibility =
+                                                                View.VISIBLE
 //                                                            binding.back.visibility = View.VISIBLE
                                                         } else {
-                                                            binding.progressBar.visibility = View.GONE
-                                                            binding.textView4.visibility = View.VISIBLE
-                                                            binding.button11.visibility = View.VISIBLE
-                                                            binding.button12.visibility = View.VISIBLE
+                                                            binding.progressBar.visibility =
+                                                                View.GONE
+                                                            binding.textView4.visibility =
+                                                                View.VISIBLE
+                                                            binding.button11.visibility =
+                                                                View.VISIBLE
+                                                            binding.button12.visibility =
+                                                                View.VISIBLE
 //                                                            binding.back.visibility = View.VISIBLE
                                                             errorMsg("Invalid Code")
                                                         }
@@ -187,4 +222,15 @@ class PlayerPage : AppCompatActivity() {
     fun errorMsg(value: String) {
         Toast.makeText(this, value, Toast.LENGTH_SHORT).show()
     }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if(t.onOptionsItemSelected(item))
+//            return true;
+//        if (item.getItemId() == R.menu.) {
+//            onMenuItemSelected(R.id.fav, item);
+//            Toast.makeText(this, "Favouritessss", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        return super.onOptionsItemSelected(item)
+//    }
 }
