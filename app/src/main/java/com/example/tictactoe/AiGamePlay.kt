@@ -313,8 +313,14 @@ class AiGamePlay : AppCompatActivity() {
             buttonselected.isEnabled = true
             buttonselected.setBackgroundColor(Color.parseColor("#F1F6F9"))
             buttonselected.text = ""
-            binding.textView.text = "${intent.getStringExtra("player1")} : $player1Count"
-            binding.textView2.text = "${intent.getStringExtra("player2")} : $player2Count"
+            if (!singleUser) {
+                binding.textView.text = "${intent.getStringExtra("player1")} : $player1Count"
+                binding.textView2.text = "${intent.getStringExtra("player2")} : $player2Count"
+            }
+            else{
+                binding.textView.text = "player1 : $player1Count"
+                binding.textView2.text = "player2 : $player2Count"
+            }
             binding.turn.text = intent.getStringExtra("player1")
 
 

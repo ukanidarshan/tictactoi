@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".SuggestionFragment">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Suggestion Form"
+        android:textSize="25dp"
+        android:textStyle="bold"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeActionLabel="name"
+        android:hint="Enter Your Name"
+        android:padding="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/bordered"
+        android:id="@+id/sname"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:background="@drawable/bordered"
+        android:hint="Enter Your Mobile No."
+        android:inputType="number"
+        android:padding="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:maxLines="6"
+        android:padding="20dp"
+        android:gravity="start"
+        android:background="@drawable/bordered"
+        android:hint="Enter Your Suggestion"
+        />
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:text="Submit"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#4CAF50"/>
+
+
+</LinearLayout>

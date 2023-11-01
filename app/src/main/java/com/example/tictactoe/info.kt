@@ -16,9 +16,14 @@ class info : AppCompatActivity() {
 
 
         binding.play.setOnClickListener{
-            if (binding.player1.text.toString().isEmpty()||binding.player2.text.toString().isEmpty())
+            if (binding.player1.text.toString().isEmpty())
             {
-                error("Enter Player's name")
+                binding.player1.setError("Enter player name")
+                return@setOnClickListener
+            }
+            else if (binding.player2.text.toString().isEmpty())
+            {
+                binding.player1.setError("Enter player name")
                 return@setOnClickListener
             }
             else{
