@@ -51,7 +51,7 @@
             android:layout_marginBottom="30dp"
             android:backgroundTint="#D0AC00"
             android:textColor="@color/black"
-            android:text="Create" />
+            android:text="Generate QR" />
 
         <Button
             android:id="@+id/getCode"
@@ -60,24 +60,7 @@
             android:layout_marginBottom="30dp"
             android:backgroundTint="#D0AC00"
             android:textColor="@color/black"
-            android:text="Get code" />
-
-<!--        <Button-->
-<!--            android:id="@+id/Join"-->
-<!--            android:layout_width="150dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="30dp"-->
-<!--            android:backgroundTint="#D0AC00"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:text="Join" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/link"-->
-<!--            android:layout_width="150dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="#D0AC00"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:text="Generate link" />-->
+            android:text="Scan QR" />
 
         <ProgressBar
             android:id="@+id/progressBar"
