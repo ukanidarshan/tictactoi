@@ -21,6 +21,8 @@ var playerTurn = true
 class AiGamePlay : AppCompatActivity() {
     lateinit var binding: ActivityAiGamePlayBinding
     var line = 0
+    var player1Count = 0
+    var player2Count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,8 @@ class AiGamePlay : AppCompatActivity() {
         if (!singleUser){
             binding.turn.visibility = View.VISIBLE
             binding.turn.text = "Turn : ${intent.getStringExtra("player1")}"
+            binding.textView.text = "${intent.getStringExtra("player1")} : $player1Count"
+            binding.textView2.text = "${intent.getStringExtra("player2")} : $player2Count"
         }
         else{
             binding.turn.visibility = View.GONE
@@ -45,8 +49,7 @@ class AiGamePlay : AppCompatActivity() {
         }
     }
 
-    var player1Count = 0
-    var player2Count = 0
+
     fun clickfun(view: View) {
         if (playerTurn) {
             val but = view as Button
@@ -310,8 +313,8 @@ class AiGamePlay : AppCompatActivity() {
             buttonselected.isEnabled = true
             buttonselected.setBackgroundColor(Color.parseColor("#F1F6F9"))
             buttonselected.text = ""
-            binding.textView.text = "${intent.getStringExtra("player2")} : $player1Count"
-            binding.textView2.text = "${intent.getStringExtra("player1")} : $player2Count"
+            binding.textView.text = "${intent.getStringExtra("player1")} : $player1Count"
+            binding.textView2.text = "${intent.getStringExtra("player2")} : $player2Count"
             binding.turn.text = intent.getStringExtra("player1")
 
 
