@@ -29,13 +29,12 @@ class AiGamePlay : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_ai_game_play)
 
-        if (!singleUser){
+        if (!singleUser) {
             binding.turn.visibility = View.VISIBLE
             binding.turn.text = "Turn : ${intent.getStringExtra("player1")}"
             binding.textView.text = "${intent.getStringExtra("player1")} : $player1Count"
             binding.textView2.text = "${intent.getStringExtra("player2")} : $player2Count"
-        }
-        else{
+        } else {
             binding.turn.visibility = View.GONE
         }
 
@@ -114,63 +113,43 @@ class AiGamePlay : AppCompatActivity() {
     }
 
     fun checkwinner(): Int {
-        if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) || (player2.contains(
-                1
-            ) && player2.contains(2) && player2.contains(3))
+        if ((player1.contains(1) && player1.contains(2) && player1.contains(3))
+            || (player2.contains(1) && player2.contains(2) && player2.contains(3))
         )
             line = 1
-        else if ((player1.contains(4) && player1.contains(5) && player1.contains(6)) || (player2.contains(
-                4
-            ) && player2.contains(5) && player2.contains(6))
-        )
+        else if ((player1.contains(4) && player1.contains(5) && player1.contains(6))
+            || (player2.contains(4) && player2.contains(5) && player2.contains(6)))
             line = 2
-        else if ((player1.contains(7) && player1.contains(8) && player1.contains(9)) || (player2.contains(
-                7
-            ) && player2.contains(8) && player2.contains(9))
-        )
+        else if ((player1.contains(7) && player1.contains(8) && player1.contains(9))
+            || (player2.contains(7) && player2.contains(8) && player2.contains(9)))
             line = 3
-        else if ((player1.contains(1) && player1.contains(4) && player1.contains(7)) || (player2.contains(
-                1
-            ) && player2.contains(4) && player2.contains(7))
-        )
+        else if ((player1.contains(1) && player1.contains(4) && player1.contains(7))
+            || (player2.contains(1) && player2.contains(4) && player2.contains(7)))
             line = 4
-        else if ((player1.contains(2) && player1.contains(5) && player1.contains(8)) || (player2.contains(
-                2
-            ) && player2.contains(5) && player2.contains(8))
+        else if ((player1.contains(2) && player1.contains(5) && player1.contains(8))
+            || (player2.contains(2) && player2.contains(5) && player2.contains(8))
         )
             line = 5
-        else if ((player1.contains(3) && player1.contains(6) && player1.contains(9)) || (player2.contains(
-                3
-            ) && player2.contains(6) && player2.contains(9))
-        )
+        else if ((player1.contains(3) && player1.contains(6) && player1.contains(9))
+            || (player2.contains(3) && player2.contains(6) && player2.contains(9)))
             line = 6
-        else if ((player1.contains(1) && player1.contains(5) && player1.contains(9)) || (player2.contains(
-                1
-            ) && player2.contains(5) && player2.contains(9))
-        )
+        else if ((player1.contains(1) && player1.contains(5) && player1.contains(9))
+            || (player2.contains(1) && player2.contains(5) && player2.contains(9)))
             line = 7
-        else if (player1.contains(3) && player1.contains(5) && player1.contains(7) || player2.contains(
-                3
-            ) && player2.contains(5) && player2.contains(7)
-        )
+        else if (player1.contains(3) && player1.contains(5) && player1.contains(7)
+            || player2.contains(3) && player2.contains(5) && player2.contains(7))
             line = 8
 
 
-        if ((player1.contains(1) && player1.contains(2) && player1.contains(3)) || (player1.contains(
-                1
-            ) && player1.contains(4) && player1.contains(7)) ||
-            (player1.contains(3) && player1.contains(6) && player1.contains(9)) || (player1.contains(
-                7
-            ) && player1.contains(8) && player1.contains(9)) ||
-            (player1.contains(4) && player1.contains(5) && player1.contains(6)) || (player1.contains(
-                1
-            ) && player1.contains(5) && player1.contains(9)) ||
-            player1.contains(3) && player1.contains(5) && player1.contains(7) || (player1.contains(
-                2
-            ) && player1.contains(
-                5
-            ) && player1.contains(8))
-        ) {
+        if ((player1.contains(1) && player1.contains(2) && player1.contains(3))
+            || (player1.contains(1) && player1.contains(4) && player1.contains(7))
+            || (player1.contains(3) && player1.contains(6) && player1.contains(9))
+            || (player1.contains(7) && player1.contains(8) && player1.contains(9))
+            || (player1.contains(4) && player1.contains(5) && player1.contains(6))
+            || (player1.contains(1) && player1.contains(5) && player1.contains(9))
+            || player1.contains(3) && player1.contains(5) && player1.contains(7)
+            || (player1.contains(2) && player1.contains(5) && player1.contains(8)))
+        {
             drawWinningLine(line)
             player1Count += 1
             buttonDisable()
@@ -182,9 +161,8 @@ class AiGamePlay : AppCompatActivity() {
             val body = dialog.findViewById(R.id.settitle) as TextView
             if (singleUser) {
                 body.text = "You won!"
-            }
-            else{
-                body.text = intent.getStringExtra("player1")+" Won!"
+            } else {
+                body.text = intent.getStringExtra("player1") + " Won!"
             }
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
             dialogMessage.text =
@@ -206,21 +184,15 @@ class AiGamePlay : AppCompatActivity() {
             return 1
 
 
-        } else if ((player2.contains(1) && player2.contains(2) && player2.contains(3)) || (player2.contains(
-                1
-            ) && player2.contains(4) && player2.contains(7)) ||
-            (player2.contains(3) && player2.contains(6) && player2.contains(9)) || (player2.contains(
-                7
-            ) && player2.contains(8) && player2.contains(9)) ||
-            (player2.contains(4) && player2.contains(5) && player2.contains(6)) || (player2.contains(
-                1
-            ) && player2.contains(5) && player2.contains(9)) ||
-            player2.contains(3) && player2.contains(5) && player2.contains(7) || (player2.contains(
-                2
-            ) && player2.contains(
-                5
-            ) && player2.contains(8))
-        ) {
+        } else if ((player2.contains(1) && player2.contains(2) && player2.contains(3))
+            || (player2.contains(1) && player2.contains(4) && player2.contains(7))
+            || (player2.contains(3) && player2.contains(6) && player2.contains(9))
+            || (player2.contains(7) && player2.contains(8) && player2.contains(9))
+            || (player2.contains(4) && player2.contains(5) && player2.contains(6))
+            || (player2.contains(1) && player2.contains(5) && player2.contains(9))
+            || player2.contains(3) && player2.contains(5) && player2.contains(7)
+            || (player2.contains(2) && player2.contains(5) && player2.contains(8)))
+        {
             drawWinningLine(line)
             player2Count += 1
             buttonDisable()
@@ -231,10 +203,9 @@ class AiGamePlay : AppCompatActivity() {
 
             val body = dialog.findViewById(R.id.settitle) as TextView
             if (singleUser) {
-                body.text = "You won!"
-            }
-            else{
-                body.text = intent.getStringExtra("player2")+" Won!"
+                body.text = "You lose!"
+            } else {
+                body.text = intent.getStringExtra("player2") + " Won!"
             }
             val dialogMessage = dialog.findViewById(R.id.dialogMessage) as TextView
             dialogMessage.text =
@@ -254,11 +225,10 @@ class AiGamePlay : AppCompatActivity() {
             }
             Handler().postDelayed(Runnable { dialog.show() }, 1)
             return 1
-        } else if (emptyCells.contains(1) && emptyCells.contains(2) && emptyCells.contains(3) && emptyCells.contains(
-                4
-            ) && emptyCells.contains(5) && emptyCells.contains(6) && emptyCells.contains(7) &&
-            emptyCells.contains(8) && emptyCells.contains(9)
-        ) {
+        } else if (emptyCells.contains(1) && emptyCells.contains(2) && emptyCells.contains(3)
+            && emptyCells.contains(4) && emptyCells.contains(5) && emptyCells.contains(6)
+            && emptyCells.contains(7) && emptyCells.contains(8) && emptyCells.contains(9))
+        {
 
             val dialog = Dialog(this)
             dialog.setCancelable(false)
@@ -326,45 +296,98 @@ class AiGamePlay : AppCompatActivity() {
 
         }
         when (line) {
-            1 -> {
-                binding.line1.visibility = View.GONE
-            }
-
-            2 -> {
-                binding.line2.visibility = View.GONE
-            }
-
-            3 -> {
-                binding.line3.visibility = View.GONE
-            }
-
-            4 -> {
-                binding.line4.visibility = View.GONE
-            }
-
-            5 -> {
-                binding.line5.visibility = View.GONE
-            }
-
-            6 -> {
-                binding.line6.visibility = View.GONE
-            }
-
-            7 -> {
-                binding.line7.visibility = View.GONE
-            }
-
-            8 -> {
-                binding.line8.visibility = View.GONE
-            }
+            1 -> binding.line1.visibility = View.GONE
+            2 -> binding.line2.visibility = View.GONE
+            3 -> binding.line3.visibility = View.GONE
+            4 ->  binding.line4.visibility = View.GONE
+            5 -> binding.line5.visibility = View.GONE
+            6 -> binding.line6.visibility = View.GONE
+            7 -> binding.line7.visibility = View.GONE
+            8 -> binding.line8.visibility = View.GONE
         }
     }
 
+    fun shouldMakeWinningMove(playerMoves: List<Int>, winningCombination: List<Int>, suggest: Int): Boolean {
+        return playerMoves.containsAll(winningCombination) && !emptyCells.contains(suggest)
+    }
+
+    fun shouldBlockOpponent(opponentMoves: List<Int>, blockingCombination: List<Int>, suggest: Int): Boolean {
+        return opponentMoves.containsAll(blockingCombination) && !emptyCells.contains(suggest)
+    }
+
     fun robot() {
-        val rnd = (1..9).random()
+        var rnd = (1..9).random()
         if (emptyCells.contains(rnd))
             robot()
         else {
+
+            if (shouldMakeWinningMove(player2, listOf(2, 3), 1)
+                || shouldMakeWinningMove(player2, listOf(4, 5), 1)
+                || shouldMakeWinningMove(player2, listOf(5, 9), 1))
+                rnd = 1
+            else if (shouldMakeWinningMove(player2, listOf(1, 3), 2)
+                || shouldMakeWinningMove(player2, listOf(5, 8), 2))
+                rnd = 2
+            else if (shouldMakeWinningMove(player2, listOf(1, 2), 3)
+                || shouldMakeWinningMove(player2, listOf(6, 9), 3)
+                || shouldMakeWinningMove(player2, listOf(5, 7), 3))
+                rnd = 3
+            else if (shouldMakeWinningMove(player2, listOf(5, 6), 4)
+                || shouldMakeWinningMove(player2, listOf(1, 7), 4))
+                rnd = 4
+            else if (shouldMakeWinningMove(player2, listOf(4, 6), 5)
+                || shouldMakeWinningMove(player2, listOf(2, 8), 5)
+                || shouldMakeWinningMove(player2, listOf(1, 9), 5)
+                || shouldMakeWinningMove(player2, listOf(3, 7), 5))
+                rnd = 5
+            else if (shouldMakeWinningMove(player2, listOf(4, 5), 6)
+                || shouldMakeWinningMove(player2, listOf(3, 9), 6))
+                rnd = 6
+            else if (shouldMakeWinningMove(player2, listOf(8, 9), 7)
+                || shouldMakeWinningMove(player2, listOf(1, 4), 7)
+                || shouldMakeWinningMove(player2, listOf(5, 3), 7))
+                rnd = 7
+            else if (shouldMakeWinningMove(player2, listOf(7, 9), 8)
+                || shouldMakeWinningMove(player2, listOf(2, 5), 8))
+                rnd = 8
+            else if (shouldMakeWinningMove(player2, listOf(7, 8), 9)
+                || shouldMakeWinningMove(player2, listOf(3, 6), 9)
+                || shouldMakeWinningMove(player2, listOf(1, 5), 9))
+                rnd = 9
+            else if (shouldBlockOpponent(player1, listOf(2, 3), 1)
+                || shouldBlockOpponent(player1, listOf(4, 7), 1)
+                || shouldBlockOpponent(player1, listOf(5, 9), 1))
+                rnd = 1
+            else if (shouldBlockOpponent(player1, listOf(1, 3), 2)
+                || shouldBlockOpponent(player1, listOf(5, 8), 2))
+                rnd = 2
+            else if (shouldBlockOpponent(player1, listOf(1, 2), 3)
+                || shouldBlockOpponent(player1, listOf(6, 9), 3)
+                || shouldBlockOpponent(player1, listOf(5, 7), 3))
+                rnd = 3
+            else if (shouldBlockOpponent(player1, listOf(5, 6), 4)
+                || shouldBlockOpponent(player1, listOf(1, 7), 4))
+                rnd = 4
+            else if (shouldBlockOpponent(player1, listOf(4, 6), 5)
+                || shouldBlockOpponent(player1, listOf(2, 8), 5)
+                || shouldBlockOpponent(player1, listOf(1, 9), 5)
+                || shouldBlockOpponent(player1, listOf(3, 7), 5))
+                rnd = 5
+            else if (shouldBlockOpponent(player1, listOf(4, 5), 6)
+                || shouldBlockOpponent(player1, listOf(3, 9), 6))
+                rnd = 6
+            else if (shouldBlockOpponent(player1, listOf(8, 9), 7)
+                || shouldBlockOpponent(player1, listOf(1, 4), 7)
+                || shouldBlockOpponent(player1, listOf(5, 3), 7))
+                rnd = 7
+            else if (shouldBlockOpponent(player1, listOf(7, 9), 8)
+                || shouldBlockOpponent(player1, listOf(2, 5), 8))
+                rnd = 8
+            else if (shouldBlockOpponent(player1, listOf(7, 8), 9)
+                || shouldBlockOpponent(player1, listOf(3, 6), 9)
+                || shouldBlockOpponent(player1, listOf(1, 5), 9))
+                rnd = 9
+
             val buttonselected: Button?
             buttonselected = when (rnd) {
                 1 -> binding.button
@@ -423,37 +446,14 @@ class AiGamePlay : AppCompatActivity() {
         // For instance, if using buttons, change background colors of winning cells to indicate the win
 
         when (linenum) {
-            1 -> {
-                binding.line1.visibility = View.VISIBLE
-            }
-
-            2 -> {
-                binding.line2.visibility = View.VISIBLE
-            }
-
-            3 -> {
-                binding.line3.visibility = View.VISIBLE
-            }
-
-            4 -> {
-                binding.line4.visibility = View.VISIBLE
-            }
-
-            5 -> {
-                binding.line5.visibility = View.VISIBLE
-            }
-
-            6 -> {
-                binding.line6.visibility = View.VISIBLE
-            }
-
-            7 -> {
-                binding.line7.visibility = View.VISIBLE
-            }
-
-            8 -> {
-                binding.line8.visibility = View.VISIBLE
-            }
+            1 -> binding.line1.visibility = View.VISIBLE
+            2 -> binding.line2.visibility = View.VISIBLE
+            3 ->binding.line3.visibility = View.VISIBLE
+            4 ->binding.line4.visibility = View.VISIBLE
+            5 ->binding.line5.visibility = View.VISIBLE
+            6 ->binding.line6.visibility = View.VISIBLE
+            7 ->binding.line7.visibility = View.VISIBLE
+            8 -> binding.line8.visibility = View.VISIBLE
         }
     }
 
