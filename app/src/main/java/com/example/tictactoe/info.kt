@@ -3,6 +3,7 @@ package com.example.tictactoe
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.databinding.DataBindingUtil
 import com.example.tictactoe.databinding.ActivityInfoBinding
 
@@ -12,19 +13,12 @@ class info : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_info)
 
-        binding.back.setOnClickListener {
-            onBackPressed()
-        }
+
 
         binding.play.setOnClickListener{
-            if (binding.player1.text.isEmpty())
+            if (binding.player1.text.toString().isEmpty()||binding.player2.text.toString().isEmpty())
             {
-                binding.player1.setError("enter Player name")
-                return@setOnClickListener
-            }
-            else if(binding.player2.text.isEmpty())
-            {
-                binding.player2.setError("enter Player name")
+                error("Enter Player's name")
                 return@setOnClickListener
             }
             else{

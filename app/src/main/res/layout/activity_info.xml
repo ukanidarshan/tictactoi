@@ -38,6 +38,7 @@
             android:gravity="center"
             android:hint="Enter Player 1 name"
             android:padding="8dp"
+            android:singleLine="true"
             android:textColorHint="@color/black" />
 
         <EditText
@@ -47,6 +48,7 @@
             android:layout_marginVertical="25dp"
             android:background="@drawable/edittext"
             android:gravity="center"
+            android:singleLine="true"
             android:hint="Enter Player 2 name"
             android:padding="8dp"
             android:textColorHint="@color/black" />
