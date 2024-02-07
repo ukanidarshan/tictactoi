@@ -21,16 +21,28 @@ class MainActivity : AppCompatActivity() {
         binding.close.setOnClickListener{
             binding.gif.visibility = View.GONE
         }
+        binding.close2.setOnClickListener{
+            binding.gif2.visibility = View.GONE
+        }
+        binding.close3.setOnClickListener{
+            binding.gif3.visibility = View.GONE
+        }
 
 
         binding.infol.setOnClickListener{
             binding.gif.visibility = View.VISIBLE
+            binding.gif2.visibility = View.GONE
+            binding.gif3.visibility = View.GONE
         }
         binding.infoo.setOnClickListener{
-            binding.gif.visibility = View.VISIBLE
+            binding.gif2.visibility = View.VISIBLE
+            binding.gif3.visibility = View.GONE
+            binding.gif.visibility = View.GONE
         }
         binding.infoof.setOnClickListener{
-            binding.gif.visibility = View.VISIBLE
+            binding.gif3.visibility = View.VISIBLE
+            binding.gif2.visibility = View.GONE
+            binding.gif.visibility = View.GONE
         }
 
         binding.back.setOnClickListener {

@@ -49,7 +49,7 @@
                     android:visibility="gone"
                     android:background="#fff"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/dogif" />
+                    android:src="@drawable/qr" />
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -64,7 +64,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:layout_marginBottom="30dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
                 <Button
                     android:id="@+id/local"
                     android:layout_width="150dp"
@@ -79,14 +85,39 @@
                     android:layout_marginLeft="5dp"
                     android:src="@drawable/information"
                     android:layout_gravity="center"/>
-
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <pl.droidsonroids.gif.GifImageView
+                        android:id="@+id/gif2"
+                        android:layout_width="200dp"
+                        android:layout_height="100dp"
+                        android:visibility="gone"
+                        android:background="#fff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/link" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/cross"
+                        android:layout_toRightOf="@id/gif2"
+                        android:layout_marginLeft="-20dp"
+                        android:id="@+id/close2"/>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:layout_marginBottom="30dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
                 <Button
                     android:id="@+id/Online"
                     android:layout_width="150dp"
@@ -101,7 +132,25 @@
                     android:layout_marginLeft="5dp"
                     android:src="@drawable/information"
                     android:layout_gravity="center"/>
-
+                </LinearLayout>
+                    <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <pl.droidsonroids.gif.GifImageView
+                        android:id="@+id/gif3"
+                        android:layout_width="200dp"
+                        android:layout_height="100dp"
+                        android:visibility="gone"
+                        android:background="#fff"
+                        android:src="@drawable/tp" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/cross"
+                        android:layout_toRightOf="@id/gif3"
+                        android:layout_marginLeft="-20dp"
+                        android:id="@+id/close3"/>
+                </RelativeLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
